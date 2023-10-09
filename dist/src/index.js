@@ -60,12 +60,10 @@ function convertirTricolor(evt) {
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toTricolor(imagenSal));
 }
 ////////////hasta aqui
-
 function convertirTricolorHorizontal(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toHorizontalTricolor(imagenSal));
 }
-
 function correccionGamma(evt) {
     var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
     var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
@@ -77,6 +75,12 @@ function umbralizado(evt) {
     var umbral = parseFloat(args);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toUmbral(imagenSal, umbral));
+}
+function realce(evt) {
+    var args = prompt('Ingresa el valor del realce');
+    var realce = parseFloat(args);
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.realce(imagenSal, realce));
 }
 function desfaseX(evt) {
     var args = prompt('Ingresa el valor del desfase en X');
@@ -410,6 +414,7 @@ document.getElementById("op-tricolor").addEventListener('click', convertirTricol
 document.getElementById("op-tricolor-Horizontal").addEventListener('click', convertirTricolorHorizontal, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
+document.getElementById("op-realce").addEventListener('click', realce, false);
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);

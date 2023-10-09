@@ -231,6 +231,25 @@ export class MathImg {
     return sal;
   }
   
+
+  public static realce(img: ImageType, realce: number): number[][][] {
+      //variable que guarda el arreglo 3d de la imagen de color
+      
+      var arrImage: number[][][] = img.getArrayImg();
+      //variable donde guardamos la salida
+      var sal: number[][][] = this.initArray(img.getWidth(), img.getHeight());
+      var fila = arrImage[0].length, cols = arrImage[0][0].length;
+      for (let i = 0; i < fila; i++) {
+        for (let j = 0; j < cols; j++) {
+          for (let k = 0; k < 3; k++) {
+            sal[k][i][j] = Math.min(255, Math.max(0, (arrImage[k][i][j] * (1 + realce))));
+          }
+        }
+      }
+      return sal;
+   }
+
+  
   public static toDesfaceX(img: ImageType, des: number): number[][][] {
     //variable que guarda el arreglo 3d de la imagen de color
     var arrImage: number[][][] = img.getArrayImg();

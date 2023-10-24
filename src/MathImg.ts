@@ -821,6 +821,32 @@ export class MathImg {
     return hist;
   }
 
+<<<<<<< Updated upstream
+=======
+    //console.log(sal[0])
+    return sal;
+  } 
+
+  public static col(img: ImageType, c: number): number[][] {
+    //variable que guarda el arreglo 3d de la imagen de color
+    var arrImage = img.getArrayImg();
+    //variable donde guardamos la salida
+    var sal = new Array(3);
+    sal[0] = new Array(img.getHeight());
+    sal[1] = new Array(img.getHeight());
+    sal[2] = new Array(img.getHeight());
+    
+      for (let j = 0; j < img.getHeight(); j++) {
+        //console.log(arrImage[0][i][j], i,j )
+        sal[0][j]=arrImage[0][j][c];
+        sal[1][j]=arrImage[1][j][c];
+        sal[2][j]=arrImage[2][j][c];
+      }
+
+    //console.log(sal[0])
+    return sal;
+  } 
+>>>>>>> Stashed changes
   public static ecualizar(img: ImageType): number[][][] {
 
     //variable que guarda el arreglo 3d de la imagen de color

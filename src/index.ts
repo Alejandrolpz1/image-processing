@@ -343,6 +343,17 @@ function ecualizado(evt: any): void{
 } 
 
 
+function vcol(evt: any): void{
+  var args = prompt('Ingresa la columna');
+  var c = parseFloat(args);
+  const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+  let canvas1: HTMLCanvasElement = lienzo3;
+  let graphics1: CanvasRenderingContext2D = pantalla3;
+
+  let hist = MathImg.col(imagenSal, c);
+  const miCanvas1:CanvasLocal = new CanvasLocal(graphics1, canvas1, hist);
+  miCanvas1.paint();
+}
 function erosionarImg(evt: any): void{
   var imagenSal:ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.erosionar(imagenSal, true));
@@ -494,8 +505,13 @@ document.getElementById("op-text").addEventListener('click', textEfects, false);
 //histogramas
 document.getElementById("op-hist").addEventListener('click', histogramas, false);
 document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);
+<<<<<<< Updated upstream
 
 
+=======
+document.getElementById("op-vren").addEventListener('click', vren, false);
+document.getElementById("op-vcol").addEventListener('click', vcol, false);
+>>>>>>> Stashed changes
 //mortfologia
 document.getElementById("op-eros").addEventListener('click', erosionarImg, false);
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);

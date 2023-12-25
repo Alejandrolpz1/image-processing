@@ -422,11 +422,10 @@ function tAfin(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.tAfin(imagenSal, factores));
 }
-
 function generarRuidoBordes(evt: any): void {
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
 
-  
+ 
   var borderWidthString = prompt('Ingresa el ancho del borde para el ruido pirámide:');
 
   // Verifica que el ancho del borde sea válido
@@ -438,9 +437,12 @@ function generarRuidoBordes(evt: any): void {
   // Convierte el ancho del borde a número
   var borderWidth = parseInt(borderWidthString);
 
-  // Aplica la función  con el ancho del borde proporcionado
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.ruidoBordes(imagenSal, borderWidth));
+  // Aplica la función con el ancho del borde proporcionado
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.superponerRuidoBordes(imagenSal, borderWidth));
 }
+
+// Función de utilidad para limitar un valor entre 0 y 255
+
 
 lienzo1.addEventListener('mousemove', handleMouse);
  

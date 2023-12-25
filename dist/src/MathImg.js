@@ -1148,7 +1148,7 @@ var MathImg = /** @class */ (function () {
       */
         return sal;
     };
-    MathImg.ruidoBordes = function (img, borderWidth) {
+    MathImg.superponerRuidoBordes = function (img, borderWidth) {
         // Obtiene el ancho y alto de la imagen original
         var width = img.getWidth();
         var height = img.getHeight();
@@ -1156,17 +1156,18 @@ var MathImg = /** @class */ (function () {
         var arrImage = img.getArrayImg();
         // Inicializa el arreglo de salida con los colores originales
         var sal = this.initArray(width, height);
-        // Aplica el ruido solo en los píxeles del borde
+        // Aplica el ruido tipo estática de televisor en los píxeles del borde
         for (var i = 0; i < height; i++) {
             for (var j = 0; j < width; j++) {
                 if (i < borderWidth ||
                     i >= height - borderWidth ||
                     j < borderWidth ||
                     j >= width - borderWidth) {
-                    // Estamos en el borde, aplica ruido (en este caso, ponlo en blanco)
-                    sal[0][i][j] = 255;
-                    sal[1][i][j] = 255;
-                    sal[2][i][j] = 255;
+                    // Estamos en el borde, aplica ruido tipo estática de televisor
+                    var noise = Math.random() * 90 - 25;
+                    sal[0][i][j] = this.clamp(arrImage[0][i][j] + noise);
+                    sal[1][i][j] = this.clamp(arrImage[1][i][j] + noise);
+                    sal[2][i][j] = this.clamp(arrImage[2][i][j] + noise);
                 }
                 else {
                     // Mantén los colores originales
@@ -1177,6 +1178,9 @@ var MathImg = /** @class */ (function () {
             }
         }
         return sal;
+    };
+    MathImg.clamp = function (value) {
+        return Math.max(0, Math.min(255, value));
     };
     return MathImg;
 }());

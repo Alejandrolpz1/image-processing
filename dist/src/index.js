@@ -397,9 +397,10 @@ function generarRuidoBordes(evt) {
     }
     // Convierte el ancho del borde a número
     var borderWidth = parseInt(borderWidthString);
-    // Aplica la función  con el ancho del borde proporcionado
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.ruidoBordes(imagenSal, borderWidth));
+    // Aplica la función con el ancho del borde proporcionado
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.superponerRuidoBordes(imagenSal, borderWidth));
 }
+// Función de utilidad para limitar un valor entre 0 y 255
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);

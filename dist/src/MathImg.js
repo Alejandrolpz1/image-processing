@@ -1182,6 +1182,37 @@ var MathImg = /** @class */ (function () {
     MathImg.clamp = function (value) {
         return Math.max(0, Math.min(255, value));
     };
+    // En MathImg.ts
+    MathImg.matrixCodeRain = function (img, codeSpeed) {
+        var codeSymbols = ["0", "1", " ", " ", " ", " ", " ", " ", " ", " "]; // Símbolos para representar el código
+        var codeIntensity = 200; // Intensidad del color verde para el código
+        var width = img.getWidth();
+        var height = img.getHeight();
+        var arrImage = img.getArrayImg();
+        var codeRain = this.initArray(width, height);
+        // Copia la imagen original
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                codeRain[0][i][j] = arrImage[0][i][j];
+                codeRain[1][i][j] = arrImage[1][i][j];
+                codeRain[2][i][j] = arrImage[2][i][j];
+            }
+        }
+        // Aplica el código cayendo
+        for (var j = 0; j < width; j++) {
+            var codeLength = Math.floor(Math.random() * 15) + 5; // Longitud aleatoria del código
+            var startRow = Math.floor(Math.random() * (height - codeLength));
+            for (var i = 0; i < codeLength; i++) {
+                var symbolIndex = Math.floor(Math.random() * codeSymbols.length);
+                var symbol = codeSymbols[symbolIndex];
+                // Superpone el código verde sobre la imagen original
+                codeRain[0][startRow + i][j] = 0;
+                codeRain[1][startRow + i][j] = codeIntensity;
+                codeRain[2][startRow + i][j] = 0;
+            }
+        }
+        return codeRain;
+    };
     return MathImg;
 }());
 export { MathImg };

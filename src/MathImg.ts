@@ -1274,11 +1274,45 @@ private static clamp(value: number): number {
   return Math.max(0, Math.min(255, value));
 }
 
+// En MathImg.ts
 
+public static matrixCodeRain(img: ImageType, codeSpeed: number): number[][][] {
+  const codeSymbols = ["0", "1", " ", " ", " ", " ", " ", " ", " ", " "]; // Símbolos para representar el código
+  const codeIntensity = 200; // Intensidad del color verde para el código
 
+  const width = img.getWidth();
+  const height = img.getHeight();
+  const arrImage = img.getArrayImg();
 
+  const codeRain: number[][][] = this.initArray(width, height);
 
+  // Copia la imagen original
+  for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+          codeRain[0][i][j] = arrImage[0][i][j];
+          codeRain[1][i][j] = arrImage[1][i][j];
+          codeRain[2][i][j] = arrImage[2][i][j];
+      }
+  }
 
+  // Aplica el código cayendo
+  for (let j = 0; j < width; j++) {
+      let codeLength = Math.floor(Math.random() * 15) + 5; // Longitud aleatoria del código
+      let startRow = Math.floor(Math.random() * (height - codeLength));
+
+      for (let i = 0; i < codeLength; i++) {
+          const symbolIndex = Math.floor(Math.random() * codeSymbols.length);
+          const symbol = codeSymbols[symbolIndex];
+
+          // Superpone el código verde sobre la imagen original
+          codeRain[0][startRow + i][j] = 0;
+          codeRain[1][startRow + i][j] = codeIntensity;
+          codeRain[2][startRow + i][j] = 0;
+      }
+  }
+
+  return codeRain;
+}
 
 
 }

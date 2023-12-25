@@ -440,9 +440,13 @@ function generarRuidoBordes(evt: any): void {
   // Aplica la función con el ancho del borde proporcionado
   imagenSal.imageArray2DtoData(pantalla2, MathImg.superponerRuidoBordes(imagenSal, borderWidth));
 }
+function generarMatrixCodeRain(): void {
+  // Crea una instancia de ImageType con la imagen de pantalla1
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
 
-// Función de utilidad para limitar un valor entre 0 y 255
-
+  // Aplica la función matrixCodeRain y actualiza pantalla2
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.matrixCodeRain(imagenSal, 5)); 
+}
 
 lienzo1.addEventListener('mousemove', handleMouse);
  
@@ -523,3 +527,7 @@ document.getElementById("op-afin").addEventListener('click', tAfin, false);
 
 //operaciones nuevas
 document.getElementById("generaRuido").addEventListener('click', generarRuidoBordes, false);
+document.addEventListener('DOMContentLoaded', function () {
+
+  document.getElementById('matrixCodeRainButton').addEventListener('click', generarMatrixCodeRain);
+});

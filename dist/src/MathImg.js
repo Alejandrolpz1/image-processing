@@ -1182,7 +1182,6 @@ var MathImg = /** @class */ (function () {
     MathImg.clamp = function (value) {
         return Math.max(0, Math.min(255, value));
     };
-    // En MathImg.ts
     MathImg.matrixCodeRain = function (img, codeSpeed) {
         var codeSymbols = ["0", "1", " ", " ", " ", " ", " ", " ", " ", " "]; // Símbolos para representar el código
         var codeIntensity = 200; // Intensidad del color verde para el código
@@ -1212,6 +1211,40 @@ var MathImg = /** @class */ (function () {
             }
         }
         return codeRain;
+    };
+    MathImg.mosaico = function (img, blockSize) {
+        var width = img.getWidth();
+        var height = img.getHeight();
+        var arrImage = img.getArrayImg();
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i += blockSize) {
+            for (var j = 0; j < width; j += blockSize) {
+                var avgColor = this.getAverageColor(arrImage, j, i, blockSize, width, height);
+                this.fillBlock(sal, j, i, blockSize, avgColor, width, height);
+            }
+        }
+        return sal;
+    };
+    MathImg.getAverageColor = function (arrImage, startX, startY, blockSize, width, height) {
+        var totalPixels = Math.min(blockSize, width - startX) * Math.min(blockSize, height - startY);
+        var sumR = 0, sumG = 0, sumB = 0;
+        for (var y = startY; y < Math.min(startY + blockSize, height); y++) {
+            for (var x = startX; x < Math.min(startX + blockSize, width); x++) {
+                sumR += arrImage[0][y][x];
+                sumG += arrImage[1][y][x];
+                sumB += arrImage[2][y][x];
+            }
+        }
+        return [sumR / totalPixels, sumG / totalPixels, sumB / totalPixels];
+    };
+    MathImg.fillBlock = function (arr, startX, startY, blockSize, color, width, height) {
+        for (var y = startY; y < Math.min(startY + blockSize, height); y++) {
+            for (var x = startX; x < Math.min(startX + blockSize, width); x++) {
+                arr[0][y][x] = color[0];
+                arr[1][y][x] = color[1];
+                arr[2][y][x] = color[2];
+            }
+        }
     };
     return MathImg;
 }());

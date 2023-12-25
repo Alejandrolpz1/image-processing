@@ -119,3 +119,47 @@ export class ParticleText {
   }
 
 }
+
+
+
+export class CodeRain {
+  private particles: Particle[] = [];
+  private particleTexts: ParticleText[] = [];
+
+  constructor(width: number, height: number, ctx: CanvasRenderingContext2D, mapImg: number[][][]) {
+    // Crear un conjunto de partículas
+    for (let i = 0; i < 100; i++) {
+      this.particles.push(new Particle(width, height, ctx, mapImg));
+    }
+
+    // Crear un conjunto de partículas de texto
+    for (let i = 0; i < 30; i++) {
+      this.particleTexts.push(new ParticleText(Math.random() * width, Math.random() * height, ctx));
+    }
+  }
+
+  public update() {
+    // Actualizar todas las partículas
+    for (const particle of this.particles) {
+      particle.update();
+    }
+
+    // Actualizar todas las partículas de texto
+    for (const particleText of this.particleTexts) {
+      particleText.update({ x: 0, y: 0, radius: 0 }); // Puedes proporcionar la información del ratón si es necesario
+    }
+  }
+
+  public draw() {
+    // Dibujar todas las partículas
+    for (const particle of this.particles) {
+      particle.draw();
+    }
+
+    // Dibujar todas las partículas de texto
+    for (const particleText of this.particleTexts) {
+      particleText.draw();
+    }
+  }
+}
+

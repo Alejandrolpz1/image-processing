@@ -1274,7 +1274,9 @@ private static clamp(value: number): number {
   return Math.max(0, Math.min(255, value));
 }
 
-// En MathImg.ts
+
+
+
 
 public static matrixCodeRain(img: ImageType, codeSpeed: number): number[][][] {
   const codeSymbols = ["0", "1", " ", " ", " ", " ", " ", " ", " ", " "]; // Símbolos para representar el código
@@ -1315,7 +1317,55 @@ public static matrixCodeRain(img: ImageType, codeSpeed: number): number[][][] {
 }
 
 
+
+
+public static mosaico(img: ImageType, blockSize: number): number[][][] {
+  const width = img.getWidth();
+  const height = img.getHeight();
+  const arrImage = img.getArrayImg();
+
+  const sal = this.initArray(width, height);
+
+  for (let i = 0; i < height; i += blockSize) {
+      for (let j = 0; j < width; j += blockSize) {
+          const avgColor = this.getAverageColor(arrImage, j, i, blockSize, width, height);
+          this.fillBlock(sal, j, i, blockSize, avgColor, width, height);
+      }
+  }
+
+  return sal;
 }
+
+private static getAverageColor(arrImage: number[][][], startX: number, startY: number, blockSize: number, width: number, height: number): number[] {
+  const totalPixels = Math.min(blockSize, width - startX) * Math.min(blockSize, height - startY);
+  let sumR = 0, sumG = 0, sumB = 0;
+
+  for (let y = startY; y < Math.min(startY + blockSize, height); y++) {
+      for (let x = startX; x < Math.min(startX + blockSize, width); x++) {
+          sumR += arrImage[0][y][x];
+          sumG += arrImage[1][y][x];
+          sumB += arrImage[2][y][x];
+      }
+  }
+
+  return [sumR / totalPixels, sumG / totalPixels, sumB / totalPixels];
+}
+
+private static fillBlock(arr: number[][][], startX: number, startY: number, blockSize: number, color: number[], width: number, height: number): void {
+  for (let y = startY; y < Math.min(startY + blockSize, height); y++) {
+      for (let x = startX; x < Math.min(startX + blockSize, width); x++) {
+          arr[0][y][x] = color[0];
+          arr[1][y][x] = color[1];
+          arr[2][y][x] = color[2];
+      }
+  }
+}
+
+
+
+
+}
+
 
 
 

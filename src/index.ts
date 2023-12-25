@@ -6,6 +6,9 @@ import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
 
+
+
+
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
 let lienzo4: HTMLCanvasElement;
@@ -440,13 +443,68 @@ function generarRuidoBordes(evt: any): void {
   // Aplica la función con el ancho del borde proporcionado
   imagenSal.imageArray2DtoData(pantalla2, MathImg.superponerRuidoBordes(imagenSal, borderWidth));
 }
+
 function generarMatrixCodeRain(): void {
   // Crea una instancia de ImageType con la imagen de pantalla1
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
 
   // Aplica la función matrixCodeRain y actualiza pantalla2
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.matrixCodeRain(imagenSal, 5)); 
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.matrixCodeRain(imagenSal, 5)); // Puedes ajustar la velocidad (codeSpeed) según tu preferencia
 }
+
+// Define la función getMapImg
+function getMapImg(img: HTMLImageElement): number[][][] {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+
+  // Asegúrate de ajustar el tamaño del lienzo según tus necesidades
+  canvas.width = img.width;
+  canvas.height = img.height;
+
+  // Dibuja la imagen en el lienzo
+  context.drawImage(img, 0, 0);
+
+  // Obtiene los datos de píxeles del lienzo
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  const pixelData = imageData.data;
+
+  // Convierte los datos de píxeles a un formato 3D (asumiendo que es RGB)
+  const mapImg: number[][][] = [];
+
+  for (let i = 0; i < canvas.height; i++) {
+    const row: number[][] = [];
+
+    for (let j = 0; j < canvas.width; j++) {
+      const offset = (i * canvas.width + j) * 4; // Cada píxel tiene 4 componentes (R, G, B, A)
+      const red = pixelData[offset];
+      const green = pixelData[offset + 1];
+      const blue = pixelData[offset + 2];
+
+      row.push([red, green, blue]);
+    }
+
+    mapImg.push(row);
+  }
+
+  return mapImg;
+}
+
+function applyMosaico() {
+  const blockSizeString = prompt('Ingresa el tamaño del bloque para el mosaico:');
+  if (!blockSizeString) return;
+
+  const blockSize = parseInt(blockSizeString);
+
+  // Verifica que el tamaño del bloque sea válido
+  if (isNaN(blockSize) || blockSize <= 0) {
+      alert('Ingresa un tamaño de bloque válido.');
+      return;
+  }
+
+  const imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.mosaico(imagenSal, blockSize));
+}
+
 
 lienzo1.addEventListener('mousemove', handleMouse);
  
@@ -527,7 +585,12 @@ document.getElementById("op-afin").addEventListener('click', tAfin, false);
 
 //operaciones nuevas
 document.getElementById("generaRuido").addEventListener('click', generarRuidoBordes, false);
-document.addEventListener('DOMContentLoaded', function () {
 
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Asocia la función generarMatrixCodeRain al botón con id 'matrixCodeRainButton'
   document.getElementById('matrixCodeRainButton').addEventListener('click', generarMatrixCodeRain);
 });
+
+document.getElementById('mosaico').addEventListener('click', applyMosaico);
+

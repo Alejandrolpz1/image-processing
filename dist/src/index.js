@@ -406,6 +406,46 @@ function generarMatrixCodeRain() {
     // Aplica la función matrixCodeRain y actualiza pantalla2
     imagenSal.imageArray2DtoData(pantalla2, MathImg.matrixCodeRain(imagenSal, 5)); // Puedes ajustar la velocidad (codeSpeed) según tu preferencia
 }
+// Define la función getMapImg
+function getMapImg(img) {
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    // Asegúrate de ajustar el tamaño del lienzo según tus necesidades
+    canvas.width = img.width;
+    canvas.height = img.height;
+    // Dibuja la imagen en el lienzo
+    context.drawImage(img, 0, 0);
+    // Obtiene los datos de píxeles del lienzo
+    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    var pixelData = imageData.data;
+    // Convierte los datos de píxeles a un formato 3D (asumiendo que es RGB)
+    var mapImg = [];
+    for (var i = 0; i < canvas.height; i++) {
+        var row = [];
+        for (var j = 0; j < canvas.width; j++) {
+            var offset = (i * canvas.width + j) * 4; // Cada píxel tiene 4 componentes (R, G, B, A)
+            var red = pixelData[offset];
+            var green = pixelData[offset + 1];
+            var blue = pixelData[offset + 2];
+            row.push([red, green, blue]);
+        }
+        mapImg.push(row);
+    }
+    return mapImg;
+}
+function applyMosaico() {
+    var blockSizeString = prompt('Ingresa el tamaño del bloque para el mosaico:');
+    if (!blockSizeString)
+        return;
+    var blockSize = parseInt(blockSizeString);
+    // Verifica que el tamaño del bloque sea válido
+    if (isNaN(blockSize) || blockSize <= 0) {
+        alert('Ingresa un tamaño de bloque válido.');
+        return;
+    }
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.mosaico(imagenSal, blockSize));
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -477,3 +517,4 @@ document.addEventListener('DOMContentLoaded', function () {
     // Asocia la función generarMatrixCodeRain al botón con id 'matrixCodeRainButton'
     document.getElementById('matrixCodeRainButton').addEventListener('click', generarMatrixCodeRain);
 });
+document.getElementById('mosaico').addEventListener('click', applyMosaico);

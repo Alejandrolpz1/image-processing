@@ -87,3 +87,43 @@ var ParticleText = /** @class */ (function () {
     return ParticleText;
 }());
 export { ParticleText };
+var CodeRain = /** @class */ (function () {
+    function CodeRain(width, height, ctx, mapImg) {
+        this.particles = [];
+        this.particleTexts = [];
+        // Crear un conjunto de partículas
+        for (var i = 0; i < 100; i++) {
+            this.particles.push(new Particle(width, height, ctx, mapImg));
+        }
+        // Crear un conjunto de partículas de texto
+        for (var i = 0; i < 30; i++) {
+            this.particleTexts.push(new ParticleText(Math.random() * width, Math.random() * height, ctx));
+        }
+    }
+    CodeRain.prototype.update = function () {
+        // Actualizar todas las partículas
+        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
+            var particle = _a[_i];
+            particle.update();
+        }
+        // Actualizar todas las partículas de texto
+        for (var _b = 0, _c = this.particleTexts; _b < _c.length; _b++) {
+            var particleText = _c[_b];
+            particleText.update({ x: 0, y: 0, radius: 0 }); // Puedes proporcionar la información del ratón si es necesario
+        }
+    };
+    CodeRain.prototype.draw = function () {
+        // Dibujar todas las partículas
+        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
+            var particle = _a[_i];
+            particle.draw();
+        }
+        // Dibujar todas las partículas de texto
+        for (var _b = 0, _c = this.particleTexts; _b < _c.length; _b++) {
+            var particleText = _c[_b];
+            particleText.draw();
+        }
+    };
+    return CodeRain;
+}());
+export { CodeRain };

@@ -60,10 +60,6 @@ function convertirTricolor(evt) {
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toTricolor(imagenSal));
 }
 ////////////hasta aqui
-function convertirTricolorHorizontal(evt) {
-    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.toHorizontalTricolor(imagenSal));
-}
 function correccionGamma(evt) {
     var args = prompt('Ingresa los factores de correccion Gamma, separados por coma');
     var factores = args.split(',').map(function (elem) { return parseFloat(elem); });
@@ -75,12 +71,6 @@ function umbralizado(evt) {
     var umbral = parseFloat(args);
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.toUmbral(imagenSal, umbral));
-}
-function realce(evt) {
-    var args = prompt('Ingresa el valor del realce');
-    var realce = parseFloat(args);
-    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.realce(imagenSal, realce));
 }
 function desfaseX(evt) {
     var args = prompt('Ingresa el valor del desfase en X');
@@ -314,29 +304,6 @@ function ecualizado(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.ecualizar(imagenSal));
 }
-<<<<<<< Updated upstream
-=======
-function vren(evt) {
-    var args = prompt('Ingresa el renglon');
-    var r = parseFloat(args);
-    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    var canvas1 = lienzo3;
-    var graphics1 = pantalla3;
-    var hist = MathImg.ren(imagenSal, r);
-    var miCanvas1 = new CanvasLocal(graphics1, canvas1, hist);
-    miCanvas1.paint();
-}
-function vcol(evt) {
-    var args = prompt('Ingresa la columna');
-    var c = parseFloat(args);
-    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    var canvas1 = lienzo3;
-    var graphics1 = pantalla3;
-    var hist = MathImg.col(imagenSal, c);
-    var miCanvas1 = new CanvasLocal(graphics1, canvas1, hist);
-    miCanvas1.paint();
-}
->>>>>>> Stashed changes
 function erosionarImg(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.erosionar(imagenSal, true));
@@ -420,6 +387,19 @@ function tAfin(evt) {
     var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     imagenSal.imageArray2DtoData(pantalla2, MathImg.tAfin(imagenSal, factores));
 }
+function generarRuidoBordes(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    var borderWidthString = prompt('Ingresa el ancho del borde para el ruido pirámide:');
+    // Verifica que el ancho del borde sea válido
+    if (!borderWidthString || isNaN(parseInt(borderWidthString)) || parseInt(borderWidthString) < 0) {
+        alert('Ingresa un ancho de borde válido.');
+        return;
+    }
+    // Convierte el ancho del borde a número
+    var borderWidth = parseInt(borderWidthString);
+    // Aplica la función  con el ancho del borde proporcionado
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.ruidoBordes(imagenSal, borderWidth));
+}
 lienzo1.addEventListener('mousemove', handleMouse);
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -434,10 +414,8 @@ document.getElementById("op-rojo").addEventListener('click', convertirARojo, fal
 document.getElementById("op-verde").addEventListener('click', convertirAVerde, false);
 document.getElementById("op-azul").addEventListener('click', convertirAAzul, false);
 document.getElementById("op-tricolor").addEventListener('click', convertirTricolor, false);
-document.getElementById("op-tricolor-Horizontal").addEventListener('click', convertirTricolorHorizontal, false);
 document.getElementById("op-gamma").addEventListener('click', correccionGamma, false);
 document.getElementById("op-umbral1").addEventListener('click', umbralizado, false);
-document.getElementById("op-realce").addEventListener('click', realce, false);
 document.getElementById("op-umbral-2-limites").addEventListener('click', umbral2limites, false);
 document.getElementById("op-desfaseX").addEventListener('click', desfaseX, false);
 document.getElementById("op-desfaseY").addEventListener('click', desfaseY, false);
@@ -471,11 +449,6 @@ document.getElementById("op-text").addEventListener('click', textEfects, false);
 //histogramas
 document.getElementById("op-hist").addEventListener('click', histogramas, false);
 document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);
-<<<<<<< Updated upstream
-=======
-document.getElementById("op-vren").addEventListener('click', vren, false);
-document.getElementById("op-vcol").addEventListener('click', vcol, false);
->>>>>>> Stashed changes
 //mortfologia
 document.getElementById("op-eros").addEventListener('click', erosionarImg, false);
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
@@ -492,3 +465,5 @@ document.getElementById("op-rotacion").addEventListener('click', rotarImagen2, f
 document.getElementById("op-shearingX").addEventListener('click', shearingX, false);
 document.getElementById("op-shearingY").addEventListener('click', shearingY, false);
 document.getElementById("op-afin").addEventListener('click', tAfin, false);
+//operaciones nuevas
+document.getElementById("generaRuido").addEventListener('click', generarRuidoBordes, false);

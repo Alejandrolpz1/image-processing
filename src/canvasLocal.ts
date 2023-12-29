@@ -10,7 +10,8 @@ export class CanvasLocal {
   protected centerX: number;
   protected centerY: number;
   protected hist: number[][];
-  
+
+
       
   public constructor(g: CanvasRenderingContext2D, canvas: HTMLCanvasElement, h?:number[][]){
     this.graphics = g;
@@ -22,6 +23,9 @@ export class CanvasLocal {
     this.centerX = this.maxX/12;
     this.centerY = this.maxY / 12*10;
     this.hist = h;
+    
+
+    
   }
 
   iX(x: number):number{return Math.round(this.centerX + x/this.pixelSize);}
@@ -90,4 +94,7 @@ export class CanvasLocal {
     }
     return max;
   }
+
+  
+
 }

@@ -1246,6 +1246,71 @@ var MathImg = /** @class */ (function () {
             }
         }
     };
+    MathImg.efectoAcuarela = function (arrImage) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                // Modifica los valores de cada canal de color según el efecto de acuarela
+                sal[0][i][j] = arrImage[0][i][j] * 0.7 + arrImage[1][i][j] * 0.2;
+                sal[1][i][j] = arrImage[0][i][j] * 0.3 + arrImage[1][i][j] * 0.8;
+                sal[2][i][j] = arrImage[0][i][j] * 0.1 + arrImage[1][i][j] * 0.1 + arrImage[2][i][j] * 0.8;
+            }
+        }
+        return sal;
+    };
+    MathImg.efectoPinturaDePuntos = function (arrImage) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        var umbralLaplaciano = 50;
+        var umbralDiferencia = 30;
+        for (var i = 1; i < height - 1; i++) {
+            for (var j = 1; j < width - 1; j++) {
+                var laplacianoR = -arrImage[0][i - 1][j] - arrImage[0][i][j - 1] + 4 * arrImage[0][i][j] - arrImage[0][i][j + 1] - arrImage[0][i + 1][j];
+                var laplacianoG = -arrImage[1][i - 1][j] - arrImage[1][i][j - 1] + 4 * arrImage[1][i][j] - arrImage[1][i][j + 1] - arrImage[1][i + 1][j];
+                var laplacianoB = -arrImage[2][i - 1][j] - arrImage[2][i][j - 1] + 4 * arrImage[2][i][j] - arrImage[2][i][j + 1] - arrImage[2][i + 1][j];
+                var diferenciaR = Math.abs(arrImage[0][i][j] - laplacianoR);
+                var diferenciaG = Math.abs(arrImage[1][i][j] - laplacianoG);
+                var diferenciaB = Math.abs(arrImage[2][i][j] - laplacianoB);
+                var resaltoR = diferenciaR > umbralDiferencia && laplacianoR > umbralLaplaciano ? 255 : 0;
+                var resaltoG = diferenciaG > umbralDiferencia && laplacianoG > umbralLaplaciano ? 255 : 0;
+                var resaltoB = diferenciaB > umbralDiferencia && laplacianoB > umbralLaplaciano ? 255 : 0;
+                sal[0][i][j] = resaltoR;
+                sal[1][i][j] = resaltoG;
+                sal[2][i][j] = resaltoB;
+            }
+        }
+        return sal;
+    };
+    MathImg.efectoCaricatura = function (arrImage) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        // Ajusta las proporciones y resalta características faciales
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                var r = arrImage[0][i][j];
+                var g = arrImage[1][i][j];
+                var b = arrImage[2][i][j];
+                // Ajusta las proporciones (puedes experimentar con estos valores)
+                var nuevaR = r + 0.2 * (r - g);
+                var nuevaG = g + 0.2 * (g - r);
+                var nuevaB = b + 0.2 * (b - r);
+                // Resalta características faciales (puedes ajustar estos umbrales)
+                var umbral = 50;
+                var media = (r + g + b) / 3;
+                var caricaturaR = r > media + umbral ? 255 : nuevaR;
+                var caricaturaG = g > media + umbral ? 255 : nuevaG;
+                var caricaturaB = b > media + umbral ? 255 : nuevaB;
+                sal[0][i][j] = caricaturaR;
+                sal[1][i][j] = caricaturaG;
+                sal[2][i][j] = caricaturaB;
+            }
+        }
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };

@@ -12,6 +12,7 @@ var Particle = /** @class */ (function () {
         this.position1 = Math.floor(this.y);
         this.position2 = Math.floor(this.x);
         this.mappedImage = mapImg;
+        this.hue = Math.random() * 360;
     }
     Particle.prototype.update = function () {
         this.position1 = Math.floor(this.y);
@@ -22,15 +23,15 @@ var Particle = /** @class */ (function () {
             movement = (2.5 - this.speed) + this.velocity;
         }
         this.y += movement;
+        this.hue = (this.hue + 0.5) % 360;
         if (this.y >= this.height) {
             this.y = 0;
             this.x = Math.random() * this.width;
         }
     };
     Particle.prototype.draw = function () {
+        this.ctx.fillStyle = "hsl(".concat(this.hue, ", 100%, 50%)");
         this.ctx.beginPath();
-        //this.ctx.fillStyle = this.mappedImage[1][this.position1][this.position2];
-        this.ctx.fillStyle = 'white';
         this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
         this.ctx.fill();
     };
@@ -127,3 +128,17 @@ var CodeRain = /** @class */ (function () {
     return CodeRain;
 }());
 export { CodeRain };
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+function changeColor(currentColor, factor) {
+    // Aquí implementarías la lógica para cambiar el color
+    // Puedes utilizar bibliotecas como tinycolor para facilitar esto
+    // Ejemplo: tinycolor(currentColor).darken(factor).toString();
+    return currentColor; // Devuelve el color modificado
+}

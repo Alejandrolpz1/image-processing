@@ -11,10 +11,13 @@ export class Particle {
   protected position1: number;
   protected position2: number;
   protected mappedImage: any[][][];
+  protected hue: number;
+  protected shape: string; 
+ 
   
-  constructor(width: number, height: number,
-    screenCanvas: CanvasRenderingContext2D,
-    mapImg: number[][][]) {
+  
+  
+  constructor(width: number, height: number, screenCanvas: CanvasRenderingContext2D, mapImg: number[][][]) {
     this.width = width;
     this.height = height;
     this.ctx = screenCanvas;
@@ -27,19 +30,22 @@ export class Particle {
     this.position1 = Math.floor(this.y);
     this.position2 = Math.floor(this.x);
     this.mappedImage = mapImg;
+    this.hue = Math.random() * 360;
   }
 
   public update() {
     this.position1 = Math.floor(this.y);
     this.position2 = Math.floor(this.x);
     let movement = 0;
+
     if (this.y < this.height) {
       this.speed = this.mappedImage[0][this.position1][this.position2];
       movement = (2.5 - this.speed) + this.velocity;
     }
 
     this.y += movement;
-    
+    this.hue = (this.hue + 0.5) % 360;
+
     if (this.y >= this.height) {
       this.y = 0;
       this.x = Math.random() * this.width;
@@ -47,9 +53,8 @@ export class Particle {
   }
 
   public draw() {
+    this.ctx.fillStyle = `hsl(${this.hue}, 100%, 50%)`;
     this.ctx.beginPath();
-    //this.ctx.fillStyle = this.mappedImage[1][this.position1][this.position2];
-    this.ctx.fillStyle = 'white';
     this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
     this.ctx.fill();
   }
@@ -58,6 +63,8 @@ export class Particle {
     return this.speed;
   }
 }
+ 
+
 
 export class ParticleText {
   protected x: number;
@@ -161,5 +168,31 @@ export class CodeRain {
       particleText.draw();
     }
   }
+
+
+  
+
+   
+  }
+
+
+
+  
+  
+
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
+
+function changeColor(currentColor: string, factor: number) {
+  // Aquí implementarías la lógica para cambiar el color
+  // Puedes utilizar bibliotecas como tinycolor para facilitar esto
+  // Ejemplo: tinycolor(currentColor).darken(factor).toString();
+  return currentColor; // Devuelve el color modificado
+}

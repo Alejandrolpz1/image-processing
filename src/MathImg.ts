@@ -1,6 +1,8 @@
 
 import { ImageType } from "./ImageType.js";
 
+
+
 export class MathImg {
 
   public static initArray(width: number, height: number): any {
@@ -1361,11 +1363,88 @@ private static fillBlock(arr: number[][][], startX: number, startY: number, bloc
   }
 }
 
+public static efectoAcuarela(arrImage: number[][][]): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
 
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      // Modifica los valores de cada canal de color según el efecto de acuarela
+      sal[0][i][j] = arrImage[0][i][j] * 0.7 + arrImage[1][i][j] * 0.2;
+      sal[1][i][j] = arrImage[0][i][j] * 0.3 + arrImage[1][i][j] * 0.8;
+      sal[2][i][j] = arrImage[0][i][j] * 0.1 + arrImage[1][i][j] * 0.1 + arrImage[2][i][j] * 0.8;
+    }
+  }
 
-
+  return sal;
 }
 
 
+public static efectoPinturaDePuntos(arrImage: number[][][]): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
+
+  const umbralLaplaciano = 50;
+  const umbralDiferencia = 30;
+
+  for (let i = 1; i < height - 1; i++) {
+    for (let j = 1; j < width - 1; j++) {
+      const laplacianoR = -arrImage[0][i - 1][j] - arrImage[0][i][j - 1] + 4 * arrImage[0][i][j] - arrImage[0][i][j + 1] - arrImage[0][i + 1][j];
+      const laplacianoG = -arrImage[1][i - 1][j] - arrImage[1][i][j - 1] + 4 * arrImage[1][i][j] - arrImage[1][i][j + 1] - arrImage[1][i + 1][j];
+      const laplacianoB = -arrImage[2][i - 1][j] - arrImage[2][i][j - 1] + 4 * arrImage[2][i][j] - arrImage[2][i][j + 1] - arrImage[2][i + 1][j];
+
+      const diferenciaR = Math.abs(arrImage[0][i][j] - laplacianoR);
+      const diferenciaG = Math.abs(arrImage[1][i][j] - laplacianoG);
+      const diferenciaB = Math.abs(arrImage[2][i][j] - laplacianoB);
+
+      const resaltoR = diferenciaR > umbralDiferencia && laplacianoR > umbralLaplaciano ? 255 : 0;
+      const resaltoG = diferenciaG > umbralDiferencia && laplacianoG > umbralLaplaciano ? 255 : 0;
+      const resaltoB = diferenciaB > umbralDiferencia && laplacianoB > umbralLaplaciano ? 255 : 0;
+
+      sal[0][i][j] = resaltoR;
+      sal[1][i][j] = resaltoG;
+      sal[2][i][j] = resaltoB;
+    }
+  }
+
+  return sal;
+}
 
 
+public static efectoCaricatura(arrImage: number[][][]): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
+
+  // Ajusta las proporciones y resalta características faciales
+  for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+          const r = arrImage[0][i][j];
+          const g = arrImage[1][i][j];
+          const b = arrImage[2][i][j];
+
+          // Ajusta las proporciones (puedes experimentar con estos valores)
+          const nuevaR = r + 0.2 * (r - g);
+          const nuevaG = g + 0.2 * (g - r);
+          const nuevaB = b + 0.2 * (b - r);
+
+          // Resalta características faciales (puedes ajustar estos umbrales)
+          const umbral = 50;
+          const media = (r + g + b) / 3;
+
+          const caricaturaR = r > media + umbral ? 255 : nuevaR;
+          const caricaturaG = g > media + umbral ? 255 : nuevaG;
+          const caricaturaB = b > media + umbral ? 255 : nuevaB;
+
+          sal[0][i][j] = caricaturaR;
+          sal[1][i][j] = caricaturaG;
+          sal[2][i][j] = caricaturaB;
+      }
+  }
+
+  return sal;
+}
+
+}

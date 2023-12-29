@@ -9,6 +9,7 @@ import { CanvasLocal } from './canvasLocal.js';
 
 
 
+
 let lienzo1: HTMLCanvasElement;
 let lienzo2: HTMLCanvasElement;
 let lienzo4: HTMLCanvasElement;
@@ -229,19 +230,20 @@ function init() {
   for (let i = 0; i < numberOfParticles; i++){
     particlesArray.push(new Particle(w, h, ctx, tmp));
   }
-}
-
-function animate() {
-  ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
-  ctx.globalAlpha = 0.25;
-  ctx.fillStyle = 'rgb(0,0,0)';
-  ctx.fillRect(0, 0, w, h);
-  for (let i = 0; i < particlesArray.length; i++){
-    particlesArray[i].update();
-    particlesArray[i].draw();
   }
-  requestAnimationFrame(animate);
-}
+
+
+  function animate() {
+    ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, w, h);
+    for (let i = 0; i < particlesArray.length; i++){
+      particlesArray[i].update();
+      particlesArray[i].draw();
+    }
+    requestAnimationFrame(animate);
+  }
 
 function animate2() {
   ctx.globalAlpha = 0.25;
@@ -506,8 +508,39 @@ function applyMosaico() {
 }
 
 
-lienzo1.addEventListener('mousemove', handleMouse);
- 
+function aplicarEfectoAcuarela(): void {
+  const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+
+  // Obtén el arreglo 3D de la imagen original
+  const arrImage = imagenSal.getArrayImg();
+
+  // Aplica el efecto de acuarela
+  const imagenAcuarela = MathImg.efectoAcuarela(arrImage);
+
+  // Actualiza la imagen con el efecto de acuarela
+  imagenSal.imageArray2DtoData(pantalla2, imagenAcuarela);
+}
+
+
+document.getElementById('efectoPinturaDePuntosButton').addEventListener('click', function (evt: any) {
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+
+  // Aplica la función efectoPinturaDePuntos
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoPinturaDePuntos(imagenSal.getArrayImg()));
+});
+
+function generarEfectoCaricatura(evt: any): void {
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+
+  // Aplica la función efectoCaricatura a la imagen
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoCaricatura(imagenSal.getArrayImg()));
+}
+
+
+
+
+
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -553,7 +586,7 @@ document.getElementById("op-marca-agua-centro").addEventListener('click', marcaA
 document.getElementById("op-marca-agua-array").addEventListener('click', marcaAguaArray, false);
 
 //op con efectos
-document.getElementById("op-rain").addEventListener('click', rain, false);
+
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
 
 //op con texto.
@@ -593,4 +626,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById('mosaico').addEventListener('click', applyMosaico);
+document.getElementById('acuarelaButton').addEventListener('click', aplicarEfectoAcuarela);
+document.getElementById('caricatura').addEventListener('click', generarEfectoCaricatura);
+document.getElementById("op-rain").addEventListener('click', rain, false);
+
+
+
+
+
+
+
+
+
 

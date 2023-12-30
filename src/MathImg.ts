@@ -1459,7 +1459,6 @@ public static efectocamaratermica(arrImage: number[][][]): number[][][] {
       // Calcula el valor promedio de los canales de color
       const promedioColor = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
 
-      // Aplica la niebla utilizando el promedio de color
       sal[0][i][j] = arrImage[0][i][j] + intensidadNiebla * (promedioColor - arrImage[0][i][j]);
       sal[1][i][j] = arrImage[1][i][j] + intensidadNiebla * (promedioColor - arrImage[1][i][j]);
       sal[2][i][j] = arrImage[2][i][j] + intensidadNiebla * (promedioColor - arrImage[2][i][j]);
@@ -1471,6 +1470,35 @@ public static efectocamaratermica(arrImage: number[][][]): number[][][] {
 
 
 
+public static Cuadricula (arrImage: number[][][]): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
 
+  // Parámetros ajustables para controlar el efecto Off Grid Suave
+  const tamañoCuadrado = 20;
+  const desplazamientoX = 10;
+  const desplazamientoY = 10;
+  const intensidad = 0.5; // Intensidad del efecto, 0 significa sin cambios, 1 significa máximo cambio
+
+  // Aplica el efecto
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      const cuadroX = Math.floor(j / tamañoCuadrado) * tamañoCuadrado + desplazamientoX;
+      const cuadroY = Math.floor(i / tamañoCuadrado) * tamañoCuadrado + desplazamientoY;
+
+      // Calcula las coordenadas en la imagen original
+      const xOriginal = Math.floor((cuadroX + width) % width);
+      const yOriginal = Math.floor((cuadroY + height) % height);
+
+      // Mezcla los colores originales con los colores del cuadro actual
+      sal[0][i][j] = arrImage[0][i][j] * (1 - intensidad) + arrImage[0][yOriginal][xOriginal] * intensidad;
+      sal[1][i][j] = arrImage[1][i][j] * (1 - intensidad) + arrImage[1][yOriginal][xOriginal] * intensidad;
+      sal[2][i][j] = arrImage[2][i][j] * (1 - intensidad) + arrImage[2][yOriginal][xOriginal] * intensidad;
+    }
+  }
+
+  return sal;
+}
 
 }

@@ -1320,10 +1320,34 @@ var MathImg = /** @class */ (function () {
             for (var j = 0; j < width; j++) {
                 // Calcula el valor promedio de los canales de color
                 var promedioColor = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
-                // Aplica la niebla utilizando el promedio de color
                 sal[0][i][j] = arrImage[0][i][j] + intensidadNiebla * (promedioColor - arrImage[0][i][j]);
                 sal[1][i][j] = arrImage[1][i][j] + intensidadNiebla * (promedioColor - arrImage[1][i][j]);
                 sal[2][i][j] = arrImage[2][i][j] + intensidadNiebla * (promedioColor - arrImage[2][i][j]);
+            }
+        }
+        return sal;
+    };
+    MathImg.Cuadricula = function (arrImage) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        // Parámetros ajustables para controlar el efecto Off Grid Suave
+        var tamañoCuadrado = 20;
+        var desplazamientoX = 10;
+        var desplazamientoY = 10;
+        var intensidad = 0.5; // Intensidad del efecto, 0 significa sin cambios, 1 significa máximo cambio
+        // Aplica el efecto
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                var cuadroX = Math.floor(j / tamañoCuadrado) * tamañoCuadrado + desplazamientoX;
+                var cuadroY = Math.floor(i / tamañoCuadrado) * tamañoCuadrado + desplazamientoY;
+                // Calcula las coordenadas en la imagen original
+                var xOriginal = Math.floor((cuadroX + width) % width);
+                var yOriginal = Math.floor((cuadroY + height) % height);
+                // Mezcla los colores originales con los colores del cuadro actual
+                sal[0][i][j] = arrImage[0][i][j] * (1 - intensidad) + arrImage[0][yOriginal][xOriginal] * intensidad;
+                sal[1][i][j] = arrImage[1][i][j] * (1 - intensidad) + arrImage[1][yOriginal][xOriginal] * intensidad;
+                sal[2][i][j] = arrImage[2][i][j] * (1 - intensidad) + arrImage[2][yOriginal][xOriginal] * intensidad;
             }
         }
         return sal;

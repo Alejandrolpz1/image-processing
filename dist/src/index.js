@@ -406,7 +406,6 @@ function generarMatrixCodeRain() {
     // Aplica la función matrixCodeRain y actualiza pantalla2
     imagenSal.imageArray2DtoData(pantalla2, MathImg.matrixCodeRain(imagenSal, 5)); // Puedes ajustar la velocidad (codeSpeed) según tu preferencia
 }
-// Define la función getMapImg
 function applyMosaico() {
     var blockSizeString = prompt('Ingresa el tamaño del bloque para el mosaico:');
     if (!blockSizeString)
@@ -428,6 +427,15 @@ function aplicarEfectoAcuarela() {
     var imagenAcuarela = MathImg.efectoAcuarela(arrImage);
     // Actualiza la imagen con el efecto de acuarela
     imagenSal.imageArray2DtoData(pantalla2, imagenAcuarela);
+}
+function Cuadricula(evt) {
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.Cuadricula(imagenSal.getArrayImg()));
+}
+function EfectoTermica(evt) {
+    // Obtén la imagen actual
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.efectocamaratermica(imagenSal.getArrayImg()));
 }
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -502,11 +510,6 @@ document.getElementById('mosaico').addEventListener('click', applyMosaico);
 document.getElementById('acuarelaButton').addEventListener('click', aplicarEfectoAcuarela);
 document.getElementById("op-rain").addEventListener('click', rain, false);
 // Agrega un listener para aplicar el efecto de niebla
-document.getElementById('Termica').addEventListener('click', aplicarEfectoTermica);
+document.getElementById('Termica').addEventListener('click', EfectoTermica);
 // Función para aplicar el efecto de niebla
-function aplicarEfectoTermica(evt) {
-    // Obtén la imagen actual
-    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    // Aplica la función efectoNiebla sobre el arreglo de la imagen
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.efectocamaratermica(imagenSal.getArrayImg()));
-}
+document.getElementById('Cuadricula').addEventListener('click', Cuadricula);

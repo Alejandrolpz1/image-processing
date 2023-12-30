@@ -1,0 +1,261 @@
+[33mcommit 05cd7b5ab3f2c735faed49bb4ede3d6bfb221f6b[m[33m ([m[1;36mHEAD -> [m[1;32mmanuel_alejandro[m[33m, [m[1;31morigin/manuel_alejandro[m[33m)[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Thu Dec 28 21:45:47 2023 -0600
+
+    Cambio de color en particulas,cambios de nombres a efectos,se agregan acuarela,pintura con puntos y caricatura
+
+[33mcommit 30399951369ca980e6c71ccb28d48e3b174ae2a5[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Mon Dec 25 15:44:00 2023 -0600
+
+    Mosaicos
+
+[33mcommit 1aa1528b1c90d8b1a6fccea8ee397c108b7c4538[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Mon Dec 25 13:06:14 2023 -0600
+
+    Matrix rain
+
+[33mcommit c176b3c0c7e49f579203e66b5d8ae413bc164255[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Mon Dec 25 11:42:18 2023 -0600
+
+    Ruido en bordes
+
+[33mcommit f19f589b4905235f21038d9a24a72ccbe47b4580[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Mon Dec 25 00:46:44 2023 -0600
+
+    Funcionnuevaestatica
+
+[33mcommit 4eb78552549f7b15322f4a3bca281986395bce51[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Tue Oct 24 11:11:09 2023 -0600
+
+    Visualizar columna
+
+[33mcommit 343bfda780745ba56905a3da41419b37f70d4320[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Sun Oct 8 18:27:28 2023 -0600
+
+    Agregando realce
+
+[33mcommit 750d5feea82ea67605f139d227d8c7ece18b721c[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Wed Sep 27 12:03:39 2023 -0600
+
+    añadiendo funcion horizontal
+
+[33mcommit dc6e219a57e543df303c354c9c477b279bc1e3e2[m
+Author: Alejandrolpz1 <145937809+Alejandrolpz1@users.noreply.github.com>
+Date:   Tue Sep 26 22:24:57 2023 -0600
+
+    Update index.html
+
+[33mcommit b5f0e962580cf07691fd27539a824f3795d7ec76[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: 9cb1a6b d818bba
+Author: Jorge Cruz Perez <68938473+jorrgeCruz@users.noreply.github.com>
+Date:   Wed Nov 30 12:08:01 2022 -0600
+
+    Merge pull request #118 from jorrgeCruz/geometricas
+    
+    Geometricas
+
+[33mcommit 9cb1a6bc0a6860d82d6326748d58834d888ac7f0[m
+Author: Jorge Cruz Perez <68938473+jorrgeCruz@users.noreply.github.com>
+Date:   Wed Nov 30 12:06:55 2022 -0600
+
+    Update README.md
+
+[33mcommit d818bbac1408934e6a16fe037ef84b7778c8a414[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Wed Nov 30 12:05:32 2022 -0600
+
+    Cambios en operaciones escalar y rotar
+
+[33mcommit 706ab513ca2b95b4434df38f306fb54e09799de1[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Nov 7 12:19:11 2022 -0600
+
+    cambio de rama op geometricas
+
+[33mcommit de039404953044ed62abcc8e675ae897b92f8def[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Wed Oct 26 13:03:40 2022 -0500
+
+    Se agredo desface diagonal
+
+[33mcommit 2e24fd98ebe5a84d1fd8fb76678b6d4fee773cbf[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Oct 3 12:35:15 2022 -0500
+
+    Cambio de brillo por partes
+
+[33mcommit 6f5efa87bdae55b5aec87b84c9820e93dffc6f15[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Oct 3 12:35:00 2022 -0500
+
+    Cambio de brillo por partes
+
+[33mcommit c5ae014bdaa876b1f8258e5dc46714f925f7302c[m
+Merge: 6319e41 513743a
+Author: Jorge Cruz Perez <68938473+jorrgeCruz@users.noreply.github.com>
+Date:   Wed Sep 7 11:54:49 2022 -0500
+
+    Merge pull request #116 from jorrgeCruz/sinteticas
+    
+    Sinteticas
+
+[33mcommit 513743a42494fc599c6edfb69858717e3620db02[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Wed Sep 7 11:51:34 2022 -0500
+
+    actualizacion a master
+
+[33mcommit 960e2771fcfe7f02dd7a06ceb59ff405a6d94241[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Wed Sep 7 11:50:37 2022 -0500
+
+    actualizacion a master
+
+[33mcommit 1b67c649f5cdd1cf9353f66468168687d8b0a259[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Sun May 22 23:18:51 2022 -0500
+
+    Se agrego metodo composicion arraymarca de agua
+
+[33mcommit 44e8bc40314b323e43fa58ddfcb478db73cfad2b[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Sun May 22 23:18:10 2022 -0500
+
+    Se agrego metodo composicion arraymarca de agua
+
+[33mcommit 4471ff533ac87c8dc61f68510e74cd7ec8e9e980[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Tue May 10 20:43:09 2022 -0500
+
+    Avance de menu composicion de imagenes
+
+[33mcommit 2b570a12ad6299cb10a65981c7d802a2aefd0f6c[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Tue May 10 20:42:54 2022 -0500
+
+    Avance de menu composicion de imagenes
+
+[33mcommit 5da6153332e8a5811c62460a9e9606fe86e3b432[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Sun May 1 19:44:37 2022 -0500
+
+    Se añadio operaciones sinteticas
+
+[33mcommit e5145d4d2dfba4e79a833f0cc48b7c9af94d8a04[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Apr 25 12:15:39 2022 -0500
+
+    Rama terminada, comienza nueva
+
+[33mcommit 9c5f7f9e8ab9d20e1e87a29fdce471f7ed800940[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Mar 7 14:19:24 2022 -0600
+
+    Registros de prueba cortos
+
+[33mcommit d86fe58f65b72723b6b4a0eef46bccd645fe5254[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Mar 7 12:31:58 2022 -0600
+
+    Segundo commit de prueba del archivo tmp.ts
+
+[33mcommit 8193fd360019649f45e8be8bd084ce7f553613f1[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Mar 7 12:29:43 2022 -0600
+
+    Estoy trabajando con tmp.ts como prueba
+
+[33mcommit 31d371e0183344cb7a39a18f33fea5c136daef16[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Thu Nov 11 12:19:28 2021 -0600
+
+    cierre rama continuacion a t bilineal
+
+[33mcommit b25733e8c803c995ac3eda52341bb2db3cf0c376[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Wed Nov 10 15:48:11 2021 -0600
+
+    cierre rama continuacion a t bilineal
+
+[33mcommit 6319e4162024be758ce155c70709beb5040c1f34[m
+Merge: 2226bc5 3e79016
+Author: Jorge Cruz Perez <68938473+jorrgeCruz@users.noreply.github.com>
+Date:   Mon Sep 27 12:40:04 2021 -0500
+
+    Merge pull request #102 from jorrgeCruz/morfologia
+    
+    Morfologia
+
+[33mcommit 3e79016788c9d3c7e2577b2d293bed9fe7824d46[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Sep 27 12:37:12 2021 -0500
+
+    Es la version final de falso color
+
+[33mcommit bd3d2a316d337b890241f12b6638ae781aeef034[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Tue Sep 21 12:43:05 2021 -0500
+
+    Se agrego metodo de falso color by hue2
+
+[33mcommit f5f6a5e86e2ea1d04f1fc0519e0996cc763d5ee5[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Sep 20 23:38:53 2021 -0500
+
+    Se agrego metodo de falso color by hue
+
+[33mcommit 351b3900549c667f3466f1a2ed4397aab6eebcd8[m
+Author: Jorge Cruz Perez <68938473+jorrgeCruz@users.noreply.github.com>
+Date:   Mon Sep 6 12:50:26 2021 -0500
+
+    Update index.ts
+
+[33mcommit b1f52b3f911ccb7e52bb06525a6419e45b448fad[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Sep 6 12:42:55 2021 -0500
+
+    cambio de un mensaje en consola
+
+[33mcommit e218832c9a286ef3dacc2510b1fe2f272af2cefc[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon Sep 6 12:41:25 2021 -0500
+
+    cambio de un mensaje en consola
+
+[33mcommit c997a01dd98eaeb15c389c7187b0ce73f73e9868[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Mon May 24 12:30:26 2021 -0500
+
+    Operacion con histogramas
+
+[33mcommit 2226bc56c02f57368c2950ec9647ac66207834b1[m
+Merge: 4df63ee 9acf38c
+Author: Jorge Cruz Perez <68938473+jorrgeCruz@users.noreply.github.com>
+Date:   Wed Apr 28 12:48:21 2021 -0500
+
+    Merge pull request #80 from jorrgeCruz/efectosLetras
+    
+    Efectos letras
+
+[33mcommit 9acf38c6d04168c49fdeed49f5a5293f1d862f65[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Wed Apr 28 12:47:20 2021 -0500
+
+    Version efectos texto update
+
+[33mcommit 9fc264782a8374d989e5bd083b5262d4b036df26[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date:   Sat Apr 24 17:13:10 2021 -0500
+
+    Efectos sobre letras
+
+[33mcommit deaeef353c65554390ecd5708336817fea4d4f65[m
+Author: Jorge Cruz <jorrge.cruz@gmail.com>
+Date: 

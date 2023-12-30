@@ -202,12 +202,12 @@ var ctx = pantalla2;
 var w;
 var h;
 var numberOfParticles = 1000;
-var particlesArray;
-particlesArray = new Array(0);
+var particlesArray = [];
 var imagenSal;
+var smokeEffect;
 function init() {
-    //init
-    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    // Inicializar
+    imagenSal = new ImageType(pantalla1, imgLocal.getImage());
     var tmp = MathImg.relativeBrightness(imagenSal);
     w = imagenSal.getWidth();
     h = imagenSal.getHeight();
@@ -407,32 +407,6 @@ function generarMatrixCodeRain() {
     imagenSal.imageArray2DtoData(pantalla2, MathImg.matrixCodeRain(imagenSal, 5)); // Puedes ajustar la velocidad (codeSpeed) según tu preferencia
 }
 // Define la función getMapImg
-function getMapImg(img) {
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-    // Asegúrate de ajustar el tamaño del lienzo según tus necesidades
-    canvas.width = img.width;
-    canvas.height = img.height;
-    // Dibuja la imagen en el lienzo
-    context.drawImage(img, 0, 0);
-    // Obtiene los datos de píxeles del lienzo
-    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    var pixelData = imageData.data;
-    // Convierte los datos de píxeles a un formato 3D (asumiendo que es RGB)
-    var mapImg = [];
-    for (var i = 0; i < canvas.height; i++) {
-        var row = [];
-        for (var j = 0; j < canvas.width; j++) {
-            var offset = (i * canvas.width + j) * 4; // Cada píxel tiene 4 componentes (R, G, B, A)
-            var red = pixelData[offset];
-            var green = pixelData[offset + 1];
-            var blue = pixelData[offset + 2];
-            row.push([red, green, blue]);
-        }
-        mapImg.push(row);
-    }
-    return mapImg;
-}
 function applyMosaico() {
     var blockSizeString = prompt('Ingresa el tamaño del bloque para el mosaico:');
     if (!blockSizeString)
@@ -454,16 +428,6 @@ function aplicarEfectoAcuarela() {
     var imagenAcuarela = MathImg.efectoAcuarela(arrImage);
     // Actualiza la imagen con el efecto de acuarela
     imagenSal.imageArray2DtoData(pantalla2, imagenAcuarela);
-}
-document.getElementById('efectoPinturaDePuntosButton').addEventListener('click', function (evt) {
-    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    // Aplica la función efectoPinturaDePuntos
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoPinturaDePuntos(imagenSal.getArrayImg()));
-});
-function generarEfectoCaricatura(evt) {
-    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
-    // Aplica la función efectoCaricatura a la imagen
-    imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoCaricatura(imagenSal.getArrayImg()));
 }
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
@@ -536,5 +500,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 document.getElementById('mosaico').addEventListener('click', applyMosaico);
 document.getElementById('acuarelaButton').addEventListener('click', aplicarEfectoAcuarela);
-document.getElementById('caricatura').addEventListener('click', generarEfectoCaricatura);
 document.getElementById("op-rain").addEventListener('click', rain, false);
+// Agrega un listener para aplicar el efecto de niebla
+document.getElementById('Termica').addEventListener('click', aplicarEfectoTermica);
+// Función para aplicar el efecto de niebla
+function aplicarEfectoTermica(evt) {
+    // Obtén la imagen actual
+    var imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    // Aplica la función efectoNiebla sobre el arreglo de la imagen
+    imagenSal.imageArray2DtoData(pantalla2, MathImg.efectocamaratermica(imagenSal.getArrayImg()));
+}

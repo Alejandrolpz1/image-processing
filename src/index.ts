@@ -5,6 +5,11 @@ import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
+import { SmokeEffect } from "./particle.js";
+
+
+
+
 
 
 
@@ -212,107 +217,114 @@ function marcaAguaArray(evt: any): void{
   imagenSal.imageArray2DtoDataWithResizing(pantalla2, MathImg.marcaAguaArray(imagenSal, imagen2, porc));
 }
 
-//variables adicionales para el efecto rain
-let ctx = pantalla2;
-let w:number;
-let h:number;
-const numberOfParticles = 1000;
-let particlesArray: Particle[];
-particlesArray = new Array(0);
-var imagenSal: ImageType;
+  //variables adicionales para el efecto rain
+  let ctx = pantalla2;
+  let w: number;
+  let h: number;
+  const numberOfParticles = 1000;
+  let particlesArray: Particle[] = [];
+  var imagenSal: ImageType;
+  let smokeEffect: SmokeEffect;
 
-function init() {
-  //init
-  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
-  let tmp = MathImg.relativeBrightness(imagenSal);
-  w = imagenSal.getWidth();
-  h = imagenSal.getHeight();
-  for (let i = 0; i < numberOfParticles; i++){
-    particlesArray.push(new Particle(w, h, ctx, tmp));
-  }
-  }
+  function init() {
+    // Inicializar
+    imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    let tmp = MathImg.relativeBrightness(imagenSal);
+    w = imagenSal.getWidth();
+    h = imagenSal.getHeight();
 
+    for (let i = 0; i < numberOfParticles; i++) {
+      particlesArray.push(new Particle(w, h, ctx, tmp));
+    }
+  }
 
   function animate() {
     ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
     ctx.globalAlpha = 0.25;
     ctx.fillStyle = 'rgb(0,0,0)';
     ctx.fillRect(0, 0, w, h);
-    for (let i = 0; i < particlesArray.length; i++){
+
+    for (let i = 0; i < particlesArray.length; i++) {
       particlesArray[i].update();
       particlesArray[i].draw();
     }
+
     requestAnimationFrame(animate);
   }
 
-function animate2() {
-  ctx.globalAlpha = 0.25;
-  ctx.fillStyle = 'rgb(0,0,0)';
-  ctx.fillRect(0, 0, w, h);
-  for (let i = 0; i < particlesArray.length; i++){
-    particlesArray[i].update();
-    ctx.globalAlpha = particlesArray[i].getSpeed()*0.5;
-    particlesArray[i].draw();
-  }
-  requestAnimationFrame(animate2);
-}
+  function animate2() {
+    ctx.globalAlpha = 0.25;
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, w, h);
 
-function rain(evt: any): void { 
-  init();
-  animate();
-}
-
-function rain2(evt: any): void { 
-  init();
-  animate2();
-}
-
-//codigo para efecto de particulas
-let particleArray: ParticleText[];
-let mouse:any = {
-  x: null,
-  y: null,
-  radius: 50
-};
-
-function handleMouse(e: any) {
-  mouse.x = e.x;// - canvasPosition.left;
-  mouse.y = e.y;// - canvasPosition.top;
-  //console.log(mouse.x, mouse.y)
-}
-
-function textEfects(evt: any): void{
-  var args = prompt("Ingresa texto, tamaño de texto y coord x y y, separados por coma:");
-  
-  var factores = args.split(',');//.map(elem => parseInt(elem));
-  pantalla1.font = 'bold  ' + factores[1] + 'px Verdana';
-  //let cadena = 
-  pantalla1.fillText(factores[0], parseInt(factores[2]), parseInt(factores[3]));
-  imagenSal = new ImageType(pantalla1, null, 300, 300, true);
-  initParticles();
-  animateParticles();
-}
-
-function initParticles() {
-  particleArray = [];
-  let arrImage = imagenSal.getArrayImg();
-  for (let i = 0; i < 300; i++){
-    for (let j = 0; j < 300; j++) { 
-      if (arrImage[0][i][j] > 128) {
-        particleArray.push(new ParticleText(j, i, pantalla1));
-      }
+    for (let i = 0; i < particlesArray.length; i++) {
+      particlesArray[i].update();
+      ctx.globalAlpha = particlesArray[i].getSpeed() * 0.5;
+      particlesArray[i].draw();
     }
-  } 
-}
 
-function animateParticles(){
-  pantalla1.clearRect(0,0,300,300);
-  for (let i = 0; i < particleArray.length; i++){
-      particleArray[i].update(mouse);
-      particleArray[i].draw();
+    requestAnimationFrame(animate2);
   }
-  requestAnimationFrame(animateParticles);
-}
+
+  function rain(evt: any): void {
+    init();
+    animate();
+  }
+
+  function rain2(evt: any): void {
+    init();
+    animate2();
+  }
+  //codigo para efecto de particulas
+  let particleArray: ParticleText[];
+  let mouse:any = {
+    x: null,
+    y: null,
+    radius: 50
+  };
+
+  function handleMouse(e: any) {
+    mouse.x = e.x;// - canvasPosition.left;
+    mouse.y = e.y;// - canvasPosition.top;
+    //console.log(mouse.x, mouse.y)
+  }
+
+  function textEfects(evt: any): void{
+    var args = prompt("Ingresa texto, tamaño de texto y coord x y y, separados por coma:");
+    
+    var factores = args.split(',');//.map(elem => parseInt(elem));
+    pantalla1.font = 'bold  ' + factores[1] + 'px Verdana';
+    //let cadena = 
+    pantalla1.fillText(factores[0], parseInt(factores[2]), parseInt(factores[3]));
+    imagenSal = new ImageType(pantalla1, null, 300, 300, true);
+    initParticles();
+    animateParticles();
+  }
+
+  function initParticles() {
+    particleArray = [];
+    let arrImage = imagenSal.getArrayImg();
+    for (let i = 0; i < 300; i++){
+      for (let j = 0; j < 300; j++) { 
+        if (arrImage[0][i][j] > 128) {
+          particleArray.push(new ParticleText(j, i, pantalla1));
+        }
+      }
+    } 
+  }
+
+  function animateParticles(){
+    pantalla1.clearRect(0,0,300,300);
+    for (let i = 0; i < particleArray.length; i++){
+        particleArray[i].update(mouse);
+        particleArray[i].draw();
+    }
+    requestAnimationFrame(animateParticles);
+  }
+
+
+
+
 //seccion de histogramas  
 function histogramas(evt: any): void{
   const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -455,42 +467,6 @@ function generarMatrixCodeRain(): void {
 }
 
 // Define la función getMapImg
-function getMapImg(img: HTMLImageElement): number[][][] {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-
-  // Asegúrate de ajustar el tamaño del lienzo según tus necesidades
-  canvas.width = img.width;
-  canvas.height = img.height;
-
-  // Dibuja la imagen en el lienzo
-  context.drawImage(img, 0, 0);
-
-  // Obtiene los datos de píxeles del lienzo
-  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-  const pixelData = imageData.data;
-
-  // Convierte los datos de píxeles a un formato 3D (asumiendo que es RGB)
-  const mapImg: number[][][] = [];
-
-  for (let i = 0; i < canvas.height; i++) {
-    const row: number[][] = [];
-
-    for (let j = 0; j < canvas.width; j++) {
-      const offset = (i * canvas.width + j) * 4; // Cada píxel tiene 4 componentes (R, G, B, A)
-      const red = pixelData[offset];
-      const green = pixelData[offset + 1];
-      const blue = pixelData[offset + 2];
-
-      row.push([red, green, blue]);
-    }
-
-    mapImg.push(row);
-  }
-
-  return mapImg;
-}
-
 function applyMosaico() {
   const blockSizeString = prompt('Ingresa el tamaño del bloque para el mosaico:');
   if (!blockSizeString) return;
@@ -520,24 +496,6 @@ function aplicarEfectoAcuarela(): void {
   // Actualiza la imagen con el efecto de acuarela
   imagenSal.imageArray2DtoData(pantalla2, imagenAcuarela);
 }
-
-
-document.getElementById('efectoPinturaDePuntosButton').addEventListener('click', function (evt: any) {
-  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
-
-  // Aplica la función efectoPinturaDePuntos
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoPinturaDePuntos(imagenSal.getArrayImg()));
-});
-
-function generarEfectoCaricatura(evt: any): void {
-  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
-
-  // Aplica la función efectoCaricatura a la imagen
-  imagenSal.imageArray2DtoData(pantalla2, MathImg.efectoCaricatura(imagenSal.getArrayImg()));
-}
-
-
-
 
 
 
@@ -627,8 +585,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.getElementById('mosaico').addEventListener('click', applyMosaico);
 document.getElementById('acuarelaButton').addEventListener('click', aplicarEfectoAcuarela);
-document.getElementById('caricatura').addEventListener('click', generarEfectoCaricatura);
 document.getElementById("op-rain").addEventListener('click', rain, false);
+// Agrega un listener para aplicar el efecto de niebla
+document.getElementById('Termica').addEventListener('click', aplicarEfectoTermica);
+
+// Función para aplicar el efecto de niebla
+function aplicarEfectoTermica(evt: any): void {
+  // Obtén la imagen actual
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+
+  // Aplica la función efectoNiebla sobre el arreglo de la imagen
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.efectocamaratermica(imagenSal.getArrayImg()));
+}
+
+
+
+
+
 
 
 

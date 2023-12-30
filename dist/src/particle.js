@@ -137,8 +137,60 @@ function getRandomColor() {
     return color;
 }
 function changeColor(currentColor, factor) {
-    // Aquí implementarías la lógica para cambiar el color
-    // Puedes utilizar bibliotecas como tinycolor para facilitar esto
-    // Ejemplo: tinycolor(currentColor).darken(factor).toString();
     return currentColor; // Devuelve el color modificado
 }
+var SmokeParticle = /** @class */ (function () {
+    function SmokeParticle(width, height, screenCanvas) {
+        this.width = width;
+        this.height = height;
+        this.ctx = screenCanvas;
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.speed = 0.5 + Math.random() * 1.5;
+        this.velocity = Math.random() * 0.5;
+        this.size = Math.random() * 3 + 1;
+        this._2PI = Math.PI * 2;
+        this.color = 'rgba(200, 200, 200, 0.5)';
+    }
+    SmokeParticle.prototype.update = function () {
+        this.x += this.velocity;
+        this.y -= this.speed;
+        if (this.size > 0.2)
+            this.size -= 0.1;
+        if (this.speed > 0.1)
+            this.speed -= 0.05;
+    };
+    SmokeParticle.prototype.draw = function () {
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
+        this.ctx.fillStyle = this.color;
+        this.ctx.fill();
+    };
+    return SmokeParticle;
+}());
+export { SmokeParticle };
+var SmokeEffect = /** @class */ (function () {
+    function SmokeEffect(width, height, ctx) {
+        this.particles = [];
+        // Crear un conjunto de partículas de humo
+        for (var i = 0; i < 100; i++) {
+            this.particles.push(new SmokeParticle(width, height, ctx));
+        }
+    }
+    SmokeEffect.prototype.update = function () {
+        // Actualizar todas las partículas de humo
+        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
+            var particle = _a[_i];
+            particle.update();
+        }
+    };
+    SmokeEffect.prototype.draw = function () {
+        // Dibujar todas las partículas de humo
+        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
+            var particle = _a[_i];
+            particle.draw();
+        }
+    };
+    return SmokeEffect;
+}());
+export { SmokeEffect };

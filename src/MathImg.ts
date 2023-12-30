@@ -1447,4 +1447,30 @@ public static efectoCaricatura(arrImage: number[][][]): number[][][] {
   return sal;
 }
 
+public static efectocamaratermica(arrImage: number[][][]): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
+
+  const intensidadNiebla = 30; // Ajusta la intensidad de la niebla según tus preferencias
+
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      // Calcula el valor promedio de los canales de color
+      const promedioColor = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+
+      // Aplica la niebla utilizando el promedio de color
+      sal[0][i][j] = arrImage[0][i][j] + intensidadNiebla * (promedioColor - arrImage[0][i][j]);
+      sal[1][i][j] = arrImage[1][i][j] + intensidadNiebla * (promedioColor - arrImage[1][i][j]);
+      sal[2][i][j] = arrImage[2][i][j] + intensidadNiebla * (promedioColor - arrImage[2][i][j]);
+    }
+  }
+
+  return sal;
+}
+
+
+
+
+
 }

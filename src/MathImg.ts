@@ -1501,4 +1501,55 @@ public static Cuadricula (arrImage: number[][][]): number[][][] {
   return sal;
 }
 
+public static blancoNegroUmbralDinamico(arrImage: number[][][], umbralUsuario: number): number[][][] {
+  const width = arrImage[0][0].length;
+  const height = arrImage[0].length;
+  const sal = this.initArray(width, height);
+
+  // Aplica el umbral dinámico proporcionado por el usuario
+  for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+          const intensity = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+          sal[0][i][j] = intensity > umbralUsuario ? 255 : 0;
+          sal[1][i][j] = sal[0][i][j];
+          sal[2][i][j] = sal[0][i][j];
+      }
+  }
+
+  return sal;
+}
+
+public static aplicarZoom(img: ImageType, porcentajeZoom: number): number[][][] {
+  if (porcentajeZoom <= 0) {
+      console.error('El porcentaje de zoom debe ser mayor que cero.');
+      return img.getArrayImg(); // Devuelve la imagen original si el porcentaje de zoom no es válido
+  }
+
+  const factorZoom = 1 + porcentajeZoom / 100;
+
+  const width = img.getWidth();
+  const height = img.getHeight();
+
+  const arrImage = img.getArrayImg();
+  const newWidth = Math.floor(width * factorZoom);
+  const newHeight = Math.floor(height * factorZoom);
+
+  const sal = this.initArray(newWidth, newHeight);
+
+  for (let i = 0; i < newHeight; i++) {
+      for (let j = 0; j < newWidth; j++) {
+          const originalX = Math.floor(j / factorZoom);
+          const originalY = Math.floor(i / factorZoom);
+
+          sal[0][i][j] = arrImage[0][originalY][originalX];
+          sal[1][i][j] = arrImage[1][originalY][originalX];
+          sal[2][i][j] = arrImage[2][originalY][originalX];
+      }
+  }
+
+  return sal;
+}
+
+
+
 }

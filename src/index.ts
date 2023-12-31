@@ -510,6 +510,42 @@ function EfectoTermica(evt: any): void {
   imagenSal.imageArray2DtoData(pantalla2, MathImg.efectocamaratermica(imagenSal.getArrayImg()));
 }
 
+function EfectoBlancoNegroUmbralDinamico(evt: any): void {
+  var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+
+  // Solicita al usuario el nivel de umbral dinámico
+  var umbralUsuarioString = prompt('Ingresa el nivel de umbral dinámico (0-255):');
+
+  // Verifica que el nivel de umbral sea válido
+  if (!umbralUsuarioString || isNaN(parseInt(umbralUsuarioString)) || parseInt(umbralUsuarioString) < 0 || parseInt(umbralUsuarioString) > 255) {
+      alert('Ingresa un nivel de umbral válido (entre 0 y 255).');
+      return;
+  }
+
+  // Convierte el umbral a número
+  var umbralUsuario = parseInt(umbralUsuarioString);
+
+  // Aplica la función blancoNegroUmbralDinamico con el umbral proporcionado por el usuario
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.blancoNegroUmbralDinamico(imagenSal.getArrayImg(), umbralUsuario));
+}
+
+function aplicarZoom(evt: any): void {
+  const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
+
+  // Solicita al usuario el porcentaje de zoom
+  const porcentajeString = prompt('Ingresa el porcentaje de zoom:');
+  const porcentajeZoom = parseFloat(porcentajeString);
+
+  if (isNaN(porcentajeZoom)) {
+      alert('Porcentaje de zoom inválido.');
+      return;
+  }
+
+  // Aplica la función de zoom con el porcentaje proporcionado
+  imagenSal.imageArray2DtoData(pantalla2, MathImg.aplicarZoom(imagenSal, porcentajeZoom));
+}
+
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -597,13 +633,11 @@ document.addEventListener('DOMContentLoaded', function () {
 document.getElementById('mosaico').addEventListener('click', applyMosaico);
 document.getElementById('acuarelaButton').addEventListener('click', aplicarEfectoAcuarela);
 document.getElementById("op-rain").addEventListener('click', rain, false);
-// Agrega un listener para aplicar el efecto de niebla
 document.getElementById('Termica').addEventListener('click', EfectoTermica);
-
-// Función para aplicar el efecto de niebla
-
-
 document.getElementById('Cuadricula').addEventListener('click', Cuadricula);
+document.getElementById('blancoNegroUmbralDinamico').addEventListener('click', EfectoBlancoNegroUmbralDinamico);
+document.getElementById('zoom').addEventListener('click', aplicarZoom);
+
 
 
 

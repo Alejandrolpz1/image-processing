@@ -1352,6 +1352,44 @@ var MathImg = /** @class */ (function () {
         }
         return sal;
     };
+    MathImg.blancoNegroUmbralDinamico = function (arrImage, umbralUsuario) {
+        var width = arrImage[0][0].length;
+        var height = arrImage[0].length;
+        var sal = this.initArray(width, height);
+        // Aplica el umbral dinámico proporcionado por el usuario
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                var intensity = (arrImage[0][i][j] + arrImage[1][i][j] + arrImage[2][i][j]) / 3;
+                sal[0][i][j] = intensity > umbralUsuario ? 255 : 0;
+                sal[1][i][j] = sal[0][i][j];
+                sal[2][i][j] = sal[0][i][j];
+            }
+        }
+        return sal;
+    };
+    MathImg.aplicarZoom = function (img, porcentajeZoom) {
+        if (porcentajeZoom <= 0) {
+            console.error('El porcentaje de zoom debe ser mayor que cero.');
+            return img.getArrayImg(); // Devuelve la imagen original si el porcentaje de zoom no es válido
+        }
+        var factorZoom = 1 + porcentajeZoom / 100;
+        var width = img.getWidth();
+        var height = img.getHeight();
+        var arrImage = img.getArrayImg();
+        var newWidth = Math.floor(width * factorZoom);
+        var newHeight = Math.floor(height * factorZoom);
+        var sal = this.initArray(newWidth, newHeight);
+        for (var i = 0; i < newHeight; i++) {
+            for (var j = 0; j < newWidth; j++) {
+                var originalX = Math.floor(j / factorZoom);
+                var originalY = Math.floor(i / factorZoom);
+                sal[0][i][j] = arrImage[0][originalY][originalX];
+                sal[1][i][j] = arrImage[1][originalY][originalX];
+                sal[2][i][j] = arrImage[2][originalY][originalX];
+            }
+        }
+        return sal;
+    };
     return MathImg;
 }());
 export { MathImg };

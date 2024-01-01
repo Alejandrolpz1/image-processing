@@ -529,7 +529,7 @@ function EfectoBlancoNegroUmbralDinamico(evt: any): void {
   imagenSal.imageArray2DtoData(pantalla2, MathImg.blancoNegroUmbralDinamico(imagenSal.getArrayImg(), umbralUsuario));
 }
 
-function aplicarZoom(evt: any): void {
+function Zoom(evt: any): void {
   const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
 
   // Solicita al usuario el porcentaje de zoom
@@ -635,8 +635,8 @@ document.getElementById('acuarelaButton').addEventListener('click', aplicarEfect
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById('Termica').addEventListener('click', EfectoTermica);
 document.getElementById('Cuadricula').addEventListener('click', Cuadricula);
-document.getElementById('blancoNegroUmbralDinamico').addEventListener('click', EfectoBlancoNegroUmbralDinamico);
-document.getElementById('zoom').addEventListener('click', aplicarZoom);
+document.getElementById('blancoNegroUmbral').addEventListener('click', EfectoBlancoNegroUmbralDinamico);
+document.getElementById('Zoom').addEventListener('click', Zoom);
 
 
 

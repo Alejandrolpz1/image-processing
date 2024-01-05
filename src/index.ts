@@ -4,8 +4,13 @@ import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
+import { BinaryRain } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
-import { SmokeEffect } from "./particle.js";
+
+
+
+
+
 
 
 
@@ -223,8 +228,11 @@ function marcaAguaArray(evt: any): void{
   let h: number;
   const numberOfParticles = 1000;
   let particlesArray: Particle[] = [];
+  const numberOfBinaryDrops = 600;
+  let binaryRainArray: BinaryRain[] = [];
   var imagenSal: ImageType;
-  let smokeEffect: SmokeEffect;
+ 
+ 
 
   function init() {
     // Inicializar
@@ -236,6 +244,9 @@ function marcaAguaArray(evt: any): void{
     for (let i = 0; i < numberOfParticles; i++) {
       particlesArray.push(new Particle(w, h, ctx, tmp));
     }
+
+    
+    // Crea una instancia de DualParticl
   }
 
   function animate() {
@@ -322,8 +333,38 @@ function marcaAguaArray(evt: any): void{
     requestAnimationFrame(animateParticles);
   }
 
+//lluvia de binario////
 
 
+function initBinaryRain() {
+  imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+  w = imagenSal.getWidth();
+  h = imagenSal.getHeight();
+
+  for (let i = 0; i < numberOfBinaryDrops; i++) {
+    binaryRainArray.push(new BinaryRain(Math.random() * w, Math.random() * h, Math.random() * 20 + 10, ctx));
+  }
+}
+
+// Función de animación para la lluvia de código binario
+function animateBinaryRain() {
+  ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+  ctx.fillStyle = 'rgb(0,0,0)';
+
+
+  for (let i = 0; i < binaryRainArray.length; i++) {
+    binaryRainArray[i].update();
+    binaryRainArray[i].draw();
+  }
+
+  requestAnimationFrame(animateBinaryRain);
+}
+
+// Llamada a las funciones de inicialización y animación de la lluvia de código binario
+function LluviaBinario() {
+  initBinaryRain();
+  animateBinaryRain();
+}
 
 //seccion de histogramas  
 function histogramas(evt: any): void{
@@ -546,6 +587,7 @@ function Zoom(evt: any): void {
 }
 
 
+
 lienzo1.addEventListener("mousemove", imgLocal.drawSmallImg);
 document.getElementById('files').addEventListener('change', imgLocal.handleFileSelect, false);
 document.getElementById('files2').addEventListener('change', imgLocal4.handleFileSelect, false);
@@ -637,6 +679,10 @@ document.getElementById('Termica').addEventListener('click', EfectoTermica);
 document.getElementById('Cuadricula').addEventListener('click', Cuadricula);
 document.getElementById('blancoNegroUmbral').addEventListener('click', EfectoBlancoNegroUmbralDinamico);
 document.getElementById('Zoom').addEventListener('click', Zoom);
+document.getElementById('LluviaBinario').addEventListener('click', LluviaBinario);  
+
+
+
 
 
 

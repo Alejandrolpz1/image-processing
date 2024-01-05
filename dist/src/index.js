@@ -3,6 +3,7 @@ import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
+import { BinaryRain } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
 var lienzo1;
 var lienzo2;
@@ -203,8 +204,9 @@ var w;
 var h;
 var numberOfParticles = 1000;
 var particlesArray = [];
+var numberOfBinaryDrops = 600;
+var binaryRainArray = [];
 var imagenSal;
-var smokeEffect;
 function init() {
     // Inicializar
     imagenSal = new ImageType(pantalla1, imgLocal.getImage());
@@ -214,6 +216,7 @@ function init() {
     for (var i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle(w, h, ctx, tmp));
     }
+    // Crea una instancia de DualParticl
 }
 function animate() {
     ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
@@ -285,6 +288,30 @@ function animateParticles() {
         particleArray[i].draw();
     }
     requestAnimationFrame(animateParticles);
+}
+//lluvia de binario////
+function initBinaryRain() {
+    imagenSal = new ImageType(pantalla1, imgLocal.getImage());
+    w = imagenSal.getWidth();
+    h = imagenSal.getHeight();
+    for (var i = 0; i < numberOfBinaryDrops; i++) {
+        binaryRainArray.push(new BinaryRain(Math.random() * w, Math.random() * h, Math.random() * 20 + 10, ctx));
+    }
+}
+// Función de animación para la lluvia de código binario
+function animateBinaryRain() {
+    ctx.drawImage(imgLocal.getImage(), 0, 0, w, h);
+    ctx.fillStyle = 'rgb(0,0,0)';
+    for (var i = 0; i < binaryRainArray.length; i++) {
+        binaryRainArray[i].update();
+        binaryRainArray[i].draw();
+    }
+    requestAnimationFrame(animateBinaryRain);
+}
+// Llamada a las funciones de inicialización y animación de la lluvia de código binario
+function LluviaBinario() {
+    initBinaryRain();
+    animateBinaryRain();
 }
 //seccion de histogramas  
 function histogramas(evt) {
@@ -539,3 +566,4 @@ document.getElementById('Termica').addEventListener('click', EfectoTermica);
 document.getElementById('Cuadricula').addEventListener('click', Cuadricula);
 document.getElementById('blancoNegroUmbral').addEventListener('click', EfectoBlancoNegroUmbralDinamico);
 document.getElementById('Zoom').addEventListener('click', Zoom);
+document.getElementById('LluviaBinario').addEventListener('click', LluviaBinario);

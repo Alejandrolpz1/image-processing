@@ -1552,4 +1552,19 @@ public static aplicarZoom(img: ImageType, porcentajeZoom: number): number[][][] 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

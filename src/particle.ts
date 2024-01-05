@@ -1,3 +1,4 @@
+
 export class Particle {
   protected x: number;
   protected y: number;
@@ -62,6 +63,7 @@ export class Particle {
   public getSpeed(): number {
     return this.speed;
   }
+  
 }
  
 
@@ -126,58 +128,6 @@ export class ParticleText {
   }
 
 }
-
-
-
-export class CodeRain {
-  private particles: Particle[] = [];
-  private particleTexts: ParticleText[] = [];
-
-  constructor(width: number, height: number, ctx: CanvasRenderingContext2D, mapImg: number[][][]) {
-    // Crear un conjunto de partículas
-    for (let i = 0; i < 100; i++) {
-      this.particles.push(new Particle(width, height, ctx, mapImg));
-    }
-
-    // Crear un conjunto de partículas de texto
-    for (let i = 0; i < 30; i++) {
-      this.particleTexts.push(new ParticleText(Math.random() * width, Math.random() * height, ctx));
-    }
-  }
-
-  public update() {
-    // Actualizar todas las partículas
-    for (const particle of this.particles) {
-      particle.update();
-    }
-
-    // Actualizar todas las partículas de texto
-    for (const particleText of this.particleTexts) {
-      particleText.update({ x: 0, y: 0, radius: 0 }); // Puedes proporcionar la información del ratón si es necesario
-    }
-  }
-
-  public draw() {
-    // Dibujar todas las partículas
-    for (const particle of this.particles) {
-      particle.draw();
-    }
-
-    // Dibujar todas las partículas de texto
-    for (const particleText of this.particleTexts) {
-      particleText.draw();
-    }
-  }
-
-
-  
-
-   
-  }
-
-
-
-  
   
 
   function getRandomColor() {
@@ -195,68 +145,39 @@ function changeColor(currentColor: string, factor: number) {
   return currentColor; // Devuelve el color modificado
 }
 
-export class SmokeParticle {
+
+export class BinaryRain {
   protected x: number;
   protected y: number;
-  protected width: number;
-  protected height: number;
-  protected speed: number;
-  protected velocity: number;
   protected size: number;
   protected ctx: CanvasRenderingContext2D;
-  protected _2PI: number;
-  protected color: string;
+  protected velocityY: number;
+  protected binaryValue: string;
 
-  constructor(width: number, height: number, screenCanvas: CanvasRenderingContext2D) {
-    this.width = width;
-    this.height = height;
-    this.ctx = screenCanvas;
-    this.x = Math.random() * width;
-    this.y = Math.random() * height;
-    this.speed = 0.5 + Math.random() * 1.5;
-    this.velocity = Math.random() * 0.5;
-    this.size = Math.random() * 3 + 1;
-    this._2PI = Math.PI * 2;
-    this.color = 'rgba(200, 200, 200, 0.5)';
+  constructor(x: number, y: number, size: number, ctx: CanvasRenderingContext2D) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.ctx = ctx;
+    this.velocityY = Math.random() * 5 + 2; // Velocidad vertical aleatoria
+    this.binaryValue = Math.random() < 0.5 ? '0' : '1'; // Inicializa con 0 o 1 aleatorio
   }
 
   public update() {
-    this.x += this.velocity;
-    this.y -= this.speed;
+    this.y += this.velocityY;
 
-    if (this.size > 0.2) this.size -= 0.1;
-    if (this.speed > 0.1) this.speed -= 0.05;
-  }
-
-  public draw() {
-    this.ctx.beginPath();
-    this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
-    this.ctx.fillStyle = this.color;
-    this.ctx.fill();
-  }
-}
-
-export class SmokeEffect {
-  private particles: SmokeParticle[] = [];
-
-  constructor(width: number, height: number, ctx: CanvasRenderingContext2D) {
-    // Crear un conjunto de partículas de humo
-    for (let i = 0; i < 100; i++) {
-      this.particles.push(new SmokeParticle(width, height, ctx));
-    }
-  }
-
-  public update() {
-    // Actualizar todas las partículas de humo
-    for (const particle of this.particles) {
-      particle.update();
+    // Reinicia la posición si llega al fondo del lienzo
+    if (this.y > this.ctx.canvas.height) {
+      this.y = 0;
+      this.binaryValue = Math.random() < 0.5 ? '0' : '1'; // Cambia a 0 o 1 aleatorio
     }
   }
 
   public draw() {
-    // Dibujar todas las partículas de humo
-    for (const particle of this.particles) {
-      particle.draw();
-    }
+    this.ctx.fillStyle = 'green';
+    this.ctx.font = `${this.size}px monospace`;
+    this.ctx.fillText(this.binaryValue, this.x, this.y);
   }
 }
+
+

@@ -88,46 +88,6 @@ var ParticleText = /** @class */ (function () {
     return ParticleText;
 }());
 export { ParticleText };
-var CodeRain = /** @class */ (function () {
-    function CodeRain(width, height, ctx, mapImg) {
-        this.particles = [];
-        this.particleTexts = [];
-        // Crear un conjunto de partículas
-        for (var i = 0; i < 100; i++) {
-            this.particles.push(new Particle(width, height, ctx, mapImg));
-        }
-        // Crear un conjunto de partículas de texto
-        for (var i = 0; i < 30; i++) {
-            this.particleTexts.push(new ParticleText(Math.random() * width, Math.random() * height, ctx));
-        }
-    }
-    CodeRain.prototype.update = function () {
-        // Actualizar todas las partículas
-        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
-            var particle = _a[_i];
-            particle.update();
-        }
-        // Actualizar todas las partículas de texto
-        for (var _b = 0, _c = this.particleTexts; _b < _c.length; _b++) {
-            var particleText = _c[_b];
-            particleText.update({ x: 0, y: 0, radius: 0 }); // Puedes proporcionar la información del ratón si es necesario
-        }
-    };
-    CodeRain.prototype.draw = function () {
-        // Dibujar todas las partículas
-        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
-            var particle = _a[_i];
-            particle.draw();
-        }
-        // Dibujar todas las partículas de texto
-        for (var _b = 0, _c = this.particleTexts; _b < _c.length; _b++) {
-            var particleText = _c[_b];
-            particleText.draw();
-        }
-    };
-    return CodeRain;
-}());
-export { CodeRain };
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -139,58 +99,28 @@ function getRandomColor() {
 function changeColor(currentColor, factor) {
     return currentColor; // Devuelve el color modificado
 }
-var SmokeParticle = /** @class */ (function () {
-    function SmokeParticle(width, height, screenCanvas) {
-        this.width = width;
-        this.height = height;
-        this.ctx = screenCanvas;
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.speed = 0.5 + Math.random() * 1.5;
-        this.velocity = Math.random() * 0.5;
-        this.size = Math.random() * 3 + 1;
-        this._2PI = Math.PI * 2;
-        this.color = 'rgba(200, 200, 200, 0.5)';
+var BinaryRain = /** @class */ (function () {
+    function BinaryRain(x, y, size, ctx) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.ctx = ctx;
+        this.velocityY = Math.random() * 5 + 2; // Velocidad vertical aleatoria
+        this.binaryValue = Math.random() < 0.5 ? '0' : '1'; // Inicializa con 0 o 1 aleatorio
     }
-    SmokeParticle.prototype.update = function () {
-        this.x += this.velocity;
-        this.y -= this.speed;
-        if (this.size > 0.2)
-            this.size -= 0.1;
-        if (this.speed > 0.1)
-            this.speed -= 0.05;
+    BinaryRain.prototype.update = function () {
+        this.y += this.velocityY;
+        // Reinicia la posición si llega al fondo del lienzo
+        if (this.y > this.ctx.canvas.height) {
+            this.y = 0;
+            this.binaryValue = Math.random() < 0.5 ? '0' : '1'; // Cambia a 0 o 1 aleatorio
+        }
     };
-    SmokeParticle.prototype.draw = function () {
-        this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, this.size, 0, this._2PI);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+    BinaryRain.prototype.draw = function () {
+        this.ctx.fillStyle = 'green';
+        this.ctx.font = "".concat(this.size, "px monospace");
+        this.ctx.fillText(this.binaryValue, this.x, this.y);
     };
-    return SmokeParticle;
+    return BinaryRain;
 }());
-export { SmokeParticle };
-var SmokeEffect = /** @class */ (function () {
-    function SmokeEffect(width, height, ctx) {
-        this.particles = [];
-        // Crear un conjunto de partículas de humo
-        for (var i = 0; i < 100; i++) {
-            this.particles.push(new SmokeParticle(width, height, ctx));
-        }
-    }
-    SmokeEffect.prototype.update = function () {
-        // Actualizar todas las partículas de humo
-        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
-            var particle = _a[_i];
-            particle.update();
-        }
-    };
-    SmokeEffect.prototype.draw = function () {
-        // Dibujar todas las partículas de humo
-        for (var _i = 0, _a = this.particles; _i < _a.length; _i++) {
-            var particle = _a[_i];
-            particle.draw();
-        }
-    };
-    return SmokeEffect;
-}());
-export { SmokeEffect };
+export { BinaryRain };

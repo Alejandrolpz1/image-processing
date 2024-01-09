@@ -5,6 +5,9 @@ import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { BinaryRain } from "./particle.js";
+import { Snake  } from "./particle.js";
+
+
 import { CanvasLocal } from './canvasLocal.js';
 
 
@@ -231,7 +234,7 @@ function marcaAguaArray(evt: any): void{
   const numberOfBinaryDrops = 600;
   let binaryRainArray: BinaryRain[] = [];
   var imagenSal: ImageType;
- 
+  let snake: Snake;
  
 
   function init() {
@@ -359,12 +362,34 @@ function animateBinaryRain() {
 
   requestAnimationFrame(animateBinaryRain);
 }
-
-// Llamada a las funciones de inicialización y animación de la lluvia de código binario
 function LluviaBinario() {
   initBinaryRain();
   animateBinaryRain();
 }
+
+//Cabezas//
+
+
+
+function animateSnake() {
+  
+  ctx.drawImage(imgLocal.getImage(), 0, 0, pantalla2.canvas.width, pantalla2.canvas.height);
+
+  snake.move();
+  snake.draw();
+
+  setTimeout(() => {
+    requestAnimationFrame(animateSnake);
+  }, 100); 
+}
+
+
+function Cabezas() {
+  snake = new Snake(pantalla2, 10); 
+  animateSnake();
+}
+
+
 
 //seccion de histogramas  
 function histogramas(evt: any): void{
@@ -680,7 +705,7 @@ document.getElementById('Cuadricula').addEventListener('click', Cuadricula);
 document.getElementById('blancoNegroUmbral').addEventListener('click', EfectoBlancoNegroUmbralDinamico);
 document.getElementById('Zoom').addEventListener('click', Zoom);
 document.getElementById('LluviaBinario').addEventListener('click', LluviaBinario);  
-
+document.getElementById('Cabezas').addEventListener('click', Cabezas);
 
 
 

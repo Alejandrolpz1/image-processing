@@ -124,3 +124,94 @@ var BinaryRain = /** @class */ (function () {
     return BinaryRain;
 }());
 export { BinaryRain };
+var SnakeSegment = /** @class */ (function () {
+    function SnakeSegment(x, y, size, ctx) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.ctx = ctx;
+    }
+    SnakeSegment.prototype.draw = function (isHead) {
+        this.ctx.fillStyle = isHead ? 'green' : 'darkgreen'; // Color de la cabeza y el cuerpo
+        this.ctx.fillRect(this.x, this.y, this.size, this.size);
+        // Dibujar ojitos en la cabeza
+        if (isHead && this.size >= 20) {
+            var eyeSize = 4;
+            var eyeOffsetX = this.size / 4;
+            var eyeOffsetY = this.size / 4;
+            this.ctx.fillStyle = 'white';
+            this.ctx.fillRect(this.x + eyeOffsetX, this.y + eyeOffsetY, eyeSize, eyeSize);
+            this.ctx.fillRect(this.x + this.size - eyeOffsetX - eyeSize, this.y + eyeOffsetY, eyeSize, eyeSize);
+        }
+    };
+    return SnakeSegment;
+}());
+export { SnakeSegment };
+var Snake = /** @class */ (function () {
+    function Snake(ctx, numGhosts) {
+        this.segments = [];
+        this.direction = 'right'; // Dirección inicial
+        this.ctx = ctx;
+        this.changeDirectionProbability = 0.03; // Probabilidad de cambiar de dirección en cada fotograma
+        this.numGhosts = numGhosts;
+        for (var i = 0; i < numGhosts; i++) {
+            var ghostSize = Math.floor(Math.random() * 20) + 10;
+            var ghostX = Math.random() * ctx.canvas.width;
+            var ghostY = Math.random() * ctx.canvas.height;
+            this.segments.push(new SnakeSegment(ghostX, ghostY, ghostSize, ctx));
+        }
+    }
+    Snake.prototype.move = function () {
+        for (var _i = 0, _a = this.segments; _i < _a.length; _i++) {
+            var head = _a[_i];
+            var newX = head.x;
+            var newY = head.y;
+            // Cambiar de dirección aleatoriamente
+            if (Math.random() < this.changeDirectionProbability) {
+                var possibleDirections = ['up', 'down', 'left', 'right'];
+                var newDirection = possibleDirections[Math.floor(Math.random() * possibleDirections.length)];
+                this.direction = newDirection;
+            }
+            // Ajusta la dirección para que las cabezas se muevan por toda la imagen
+            if (newX < 0) {
+                newX = this.ctx.canvas.width - head.size;
+            }
+            else if (newX + head.size > this.ctx.canvas.width) {
+                newX = 0;
+            }
+            if (newY < 0) {
+                newY = this.ctx.canvas.height - head.size;
+            }
+            else if (newY + head.size > this.ctx.canvas.height) {
+                newY = 0;
+            }
+            // Aplica la dirección actual
+            switch (this.direction) {
+                case 'up':
+                    newY -= head.size;
+                    break;
+                case 'down':
+                    newY += head.size;
+                    break;
+                case 'left':
+                    newX -= head.size;
+                    break;
+                case 'right':
+                    newX += head.size;
+                    break;
+            }
+            // Actualiza la posición de la cabeza
+            head.x = newX;
+            head.y = newY;
+        }
+    };
+    Snake.prototype.draw = function () {
+        // Dibuja todas las cabezas de la serpiente
+        for (var _i = 0, _a = this.segments; _i < _a.length; _i++) {
+            var head = _a[_i];
+            head.draw(true);
+        }
+    };
+    return Snake;
+}());
+export { Snake };

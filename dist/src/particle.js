@@ -215,3 +215,102 @@ var Snake = /** @class */ (function () {
     return Snake;
 }());
 export { Snake };
+// Clase PacMan
+var PacMan = /** @class */ (function () {
+    function PacMan(x, y, size, ctx, speed) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.ctx = ctx;
+        this.speed = speed;
+        this.direction = 'right'; // Inicialmente, Pac-Man se mueve hacia la derecha
+    }
+    PacMan.prototype.changeDirection = function () {
+        switch (this.direction) {
+            case 'right':
+                this.direction = 'down';
+                break;
+            case 'down':
+                this.direction = 'left';
+                break;
+            case 'left':
+                this.direction = 'up';
+                break;
+            case 'up':
+                this.direction = 'right';
+                break;
+        }
+    };
+    PacMan.prototype.update = function () {
+        switch (this.direction) {
+            case 'right':
+                this.x += this.speed;
+                if (this.x + this.size / 2 > this.ctx.canvas.width) {
+                    this.changeDirection();
+                }
+                break;
+            case 'down':
+                this.y += this.speed;
+                if (this.y + this.size / 2 > this.ctx.canvas.height) {
+                    this.changeDirection();
+                }
+                break;
+            case 'left':
+                this.x -= this.speed;
+                if (this.x - this.size / 2 < 0) {
+                    this.changeDirection();
+                }
+                break;
+            case 'up':
+                this.y -= this.speed;
+                if (this.y - this.size / 2 < 0) {
+                    this.changeDirection();
+                }
+                break;
+        }
+    };
+    PacMan.prototype.draw = function () {
+        this.ctx.fillStyle = 'yellow';
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.size, 0.2, -0.2, false);
+        this.ctx.lineTo(this.x, this.y);
+        this.ctx.closePath();
+        this.ctx.fill();
+        this.ctx.fillStyle = 'black';
+        this.ctx.beginPath();
+        this.ctx.arc(this.x + this.size / 3, this.y - this.size / 4, this.size / 10, 0, Math.PI * 2);
+        this.ctx.closePath();
+        this.ctx.fill();
+    };
+    return PacMan;
+}());
+export { PacMan };
+// Clase Pellet
+var Pellet = /** @class */ (function () {
+    function Pellet(x, y, size, ctx) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.ctx = ctx;
+    }
+    Pellet.prototype.isEaten = function (pacmanX, pacmanY, pacmanSize) {
+        var distance = Math.sqrt(Math.pow((this.x - pacmanX), 2) + Math.pow((this.y - pacmanY), 2));
+        if (distance < (this.size + pacmanSize) / 2) {
+            this.x = -1;
+            this.y = -1;
+            return true;
+        }
+        return false;
+    };
+    Pellet.prototype.draw = function () {
+        if (this.x !== -1 && this.y !== -1) {
+            this.ctx.fillStyle = 'white';
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            this.ctx.closePath();
+            this.ctx.fill();
+        }
+    };
+    return Pellet;
+}());
+export { Pellet };

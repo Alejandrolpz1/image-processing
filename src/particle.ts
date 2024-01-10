@@ -285,3 +285,121 @@ export class Snake {
     }
   }
 }
+
+// Clase PacMan
+
+export class PacMan {
+  public x: number;
+  public y: number;
+  public size: number;
+  protected ctx: CanvasRenderingContext2D;
+  protected speed: number;
+  protected direction: string; // Nueva propiedad para almacenar la dirección actual
+
+  constructor(x: number, y: number, size: number, ctx: CanvasRenderingContext2D, speed: number) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.ctx = ctx;
+    this.speed = speed;
+    this.direction = 'right'; // Inicialmente, Pac-Man se mueve hacia la derecha
+  }
+
+  private changeDirection() {
+    switch (this.direction) {
+      case 'right':
+        this.direction = 'down';
+        break;
+      case 'down':
+        this.direction = 'left';
+        break;
+      case 'left':
+        this.direction = 'up';
+        break;
+      case 'up':
+        this.direction = 'right';
+        break;
+    }
+  }
+
+  public update() {
+    switch (this.direction) {
+      case 'right':
+        this.x += this.speed;
+        if (this.x + this.size / 2 > this.ctx.canvas.width) {
+          this.changeDirection();
+        }
+        break;
+      case 'down':
+        this.y += this.speed;
+        if (this.y + this.size / 2 > this.ctx.canvas.height) {
+          this.changeDirection();
+        }
+        break;
+      case 'left':
+        this.x -= this.speed;
+        if (this.x - this.size / 2 < 0) {
+          this.changeDirection();
+        }
+        break;
+      case 'up':
+        this.y -= this.speed;
+        if (this.y - this.size / 2 < 0) {
+          this.changeDirection();
+        }
+        break;
+    }
+  }
+
+  public draw() {
+    this.ctx.fillStyle = 'yellow';
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.size, 0.2, -0.2, false);
+    this.ctx.lineTo(this.x, this.y);
+    this.ctx.closePath();
+    this.ctx.fill();
+
+    this.ctx.fillStyle = 'black';
+    this.ctx.beginPath();
+    this.ctx.arc(this.x + this.size / 3, this.y - this.size / 4, this.size / 10, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.fill();
+  }
+}
+
+// Clase Pellet
+export class Pellet {
+  protected x: number;
+  protected y: number;
+  protected size: number;
+  protected ctx: CanvasRenderingContext2D;
+
+  constructor(x: number, y: number, size: number, ctx: CanvasRenderingContext2D) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.ctx = ctx;
+  }
+
+  public isEaten(pacmanX: number, pacmanY: number, pacmanSize: number): boolean {
+    const distance = Math.sqrt((this.x - pacmanX) ** 2 + (this.y - pacmanY) ** 2);
+
+    if (distance < (this.size + pacmanSize) / 2) {
+      this.x = -1;
+      this.y = -1;
+      return true;
+    }
+
+    return false;
+  }
+
+  public draw() {
+    if (this.x !== -1 && this.y !== -1) {
+      this.ctx.fillStyle = 'white';
+      this.ctx.beginPath();
+      this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      this.ctx.closePath();
+      this.ctx.fill();
+    }
+  }
+}

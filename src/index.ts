@@ -5,9 +5,8 @@ import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { BinaryRain } from "./particle.js";
-import { Snake  } from "./particle.js";
-
-
+import { Snake  } from "./particle.js"; 
+import { PacMan, Pellet  } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
 
 
@@ -234,7 +233,11 @@ function marcaAguaArray(evt: any): void{
   const numberOfBinaryDrops = 600;
   let binaryRainArray: BinaryRain[] = [];
   var imagenSal: ImageType;
+
+  //variables nuevas del proyecto 
   let snake: Snake;
+  let pacMan: PacMan;
+let pelletsArray: Pellet[] = [];
  
 
   function init() {
@@ -389,6 +392,43 @@ function Cabezas() {
   animateSnake();
 }
 
+//pacman //
+
+function initPacManAndPellets() {
+  pacMan = new PacMan(50, 50, 30, pantalla2, 2);
+
+  // Generar bolitas alrededor de la imagen
+  for (let i = 0; i < 10; i++) {
+    pelletsArray.push(new Pellet(i * 30 + 15, 15, 5, pantalla2)); // Arriba
+    pelletsArray.push(new Pellet(pantalla2.canvas.width - 15, i * 30 + 15, 5, pantalla2)); // Derecha
+    pelletsArray.push(new Pellet(i * 30 + 15, pantalla2.canvas.height - 15, 5, pantalla2)); // Abajo
+    pelletsArray.push(new Pellet(15, i * 30 + 15, 5, pantalla2)); // Izquierda
+  }
+  imagenSal = new ImageType(pantalla2, imgLocal.getImage());
+}
+
+function animatePacManAndPellets() {
+  ctx.drawImage(imgLocal.getImage(), 0, 0, pantalla2.canvas.width, pantalla2.canvas.height);
+
+  pacMan.update();
+  pacMan.draw();
+
+  for (let i = 0; i < pelletsArray.length; i++) {
+    pelletsArray[i].draw();
+
+    if (pelletsArray[i].isEaten(pacMan.x, pacMan.y, pacMan.size)) {
+      // Pac-Man ha comido la bolita
+    }
+  }
+
+  requestAnimationFrame(animatePacManAndPellets);
+}
+
+
+function Pacmangame() {
+  initPacManAndPellets();
+  animatePacManAndPellets();
+}
 
 
 //seccion de histogramas  
@@ -694,11 +734,11 @@ document.getElementById("generaRuido").addEventListener('click', generarRuidoBor
 
 document.addEventListener('DOMContentLoaded', function () {
   // Asocia la función generarMatrixCodeRain al botón con id 'matrixCodeRainButton'
-  document.getElementById('matrixCodeRainButton').addEventListener('click', generarMatrixCodeRain);
+  document.getElementById('matrixCodeRain').addEventListener('click', generarMatrixCodeRain);
 });
 
 document.getElementById('mosaico').addEventListener('click', applyMosaico);
-document.getElementById('acuarelaButton').addEventListener('click', aplicarEfectoAcuarela);
+document.getElementById('acuarela').addEventListener('click', aplicarEfectoAcuarela);
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById('Termica').addEventListener('click', EfectoTermica);
 document.getElementById('Cuadricula').addEventListener('click', Cuadricula);
@@ -706,6 +746,8 @@ document.getElementById('blancoNegroUmbral').addEventListener('click', EfectoBla
 document.getElementById('Zoom').addEventListener('click', Zoom);
 document.getElementById('LluviaBinario').addEventListener('click', LluviaBinario);  
 document.getElementById('Cabezas').addEventListener('click', Cabezas);
+document.getElementById('FuncionPacMan').addEventListener('click', Pacmangame);
+
 
 
 

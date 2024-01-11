@@ -403,3 +403,67 @@ export class Pellet {
     }
   }
 }
+
+export class ElectromagneticWave {
+  protected x: number;
+  protected y: number;
+  protected amplitude: number;
+  protected frequency: number;
+  protected speed: number;
+  protected ctx: CanvasRenderingContext2D;
+  protected color: string;
+
+  constructor(x: number, y: number, amplitude: number, frequency: number, speed: number, ctx: CanvasRenderingContext2D) {
+    this.x = x;
+    this.y = y;
+    this.amplitude = amplitude;
+    this.frequency = frequency;
+    this.speed = speed;
+    this.ctx = ctx;
+    this.color = getRandomColor();
+  }
+
+  public update() {
+    this.x += this.speed;
+    // Reinicia la posición si llega al final del lienzo
+    if (this.x > this.ctx.canvas.width) {
+      this.x = 0;
+    }
+  }
+
+  public draw() {
+    this.ctx.strokeStyle = this.color;
+    this.ctx.lineWidth = 2;
+
+    this.ctx.beginPath();
+    for (let i = 0; i < this.ctx.canvas.width; i++) {
+      const waveHeight = this.amplitude * Math.sin((i + this.x) * (Math.PI * 2) / this.frequency);
+      this.ctx.lineTo(i, this.y + waveHeight);
+    }
+    this.ctx.stroke();
+  }
+}
+
+export class DNAChainSegment {
+  protected x: number;
+  protected y: number;
+  protected radius: number;
+  protected color: string;
+  protected ctx: CanvasRenderingContext2D;
+
+  constructor(x: number, y: number, radius: number, color: string, ctx: CanvasRenderingContext2D) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
+    this.ctx = ctx;
+  }
+
+  public draw() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    this.ctx.closePath();
+    this.ctx.fill();
+  }
+}

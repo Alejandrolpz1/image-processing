@@ -5,7 +5,7 @@ import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
 import { BinaryRain } from "./particle.js";
 import { Snake } from "./particle.js";
-import { PacMan, Pellet } from "./particle.js";
+import { PacMan, Pellet, ElectromagneticWave } from "./particle.js";
 import { CanvasLocal } from './canvasLocal.js';
 var lienzo1;
 var lienzo2;
@@ -213,6 +213,9 @@ var imagenSal;
 var snake;
 var pacMan;
 var pelletsArray = [];
+var electromagneticWaveArray = [];
+var dnaChainArray = [];
+var angleIncrement = 0.05;
 function init() {
     // Inicializar
     imagenSal = new ImageType(pantalla1, imgLocal.getImage());
@@ -358,6 +361,35 @@ function animatePacManAndPellets() {
 function Pacmangame() {
     initPacManAndPellets();
     animatePacManAndPellets();
+}
+/// "medicion de ondas" //
+function initElectromagneticWaves() {
+    // Crea ondas electromagnéticas en posiciones aleatorias y colores únicos
+    for (var i = 0; i < 5; i++) {
+        var x = Math.random() * pantalla2.canvas.width;
+        var y = (i + 1) * pantalla2.canvas.height / 6; // Ajusta la posición vertical
+        var amplitude = Math.random() * 50 + 20;
+        var frequency = Math.random() * 50 + 10;
+        var speed = Math.random() * 2 + 1;
+        electromagneticWaveArray.push(new ElectromagneticWave(x, y, amplitude, frequency, speed, ctx));
+    }
+}
+// Función de animación para el efecto de ondas electromagnéticas
+function animateElectromagneticWaves() {
+    // Dibuja un fondo o la imagen original
+    ctx.drawImage(imgLocal.getImage(), 0, 0, pantalla2.canvas.width, pantalla2.canvas.height);
+    // Actualiza y dibuja cada onda electromagnética
+    for (var i = 0; i < electromagneticWaveArray.length; i++) {
+        electromagneticWaveArray[i].update();
+        electromagneticWaveArray[i].draw();
+    }
+    // Llama a la animación de forma recursiva
+    requestAnimationFrame(animateElectromagneticWaves);
+}
+// Llamada a las funciones de inicialización y animación de ondas electromagnéticas
+function Ondasmedicion() {
+    initElectromagneticWaves();
+    animateElectromagneticWaves();
 }
 //seccion de histogramas  
 function histogramas(evt) {
@@ -542,7 +574,7 @@ document.getElementById('files2').addEventListener('change', imgLocal4.handleFil
 dropZone.addEventListener('dragover', handleDragOver, false);
 dropZone.addEventListener('drop', imgLocal.handleFileSelect, false);
 //menu op basicas
-document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
+/*//document.getElementById("op-gris").addEventListener('click', convertirAGris, false);
 document.getElementById("op-negativo").addEventListener('click', convertirANegativo, false);
 document.getElementById("op-neg-gris").addEventListener('click', convertirANegativoGrises, false);
 document.getElementById("op-rojo").addEventListener('click', convertirARojo, false);
@@ -562,6 +594,7 @@ document.getElementById("op-gradienteX").addEventListener('click', colorGradient
 document.getElementById("op-gradienteY").addEventListener('click', colorGradienteY, false);
 document.getElementById("op-contraste").addEventListener('click', opchangeContraste, false);
 document.getElementById("op-falsocolor").addEventListener('click', opchangeFalsoColor, false);
+
 //op matematicas
 document.getElementById("op-pow").addEventListener('click', opgetPow, false);
 document.getElementById("op-sqrt").addEventListener('click', sqrt, false);
@@ -572,33 +605,43 @@ document.getElementById("op-add").addEventListener('click', add, false);
 document.getElementById("op-subtract").addEventListener('click', subtract, false);
 document.getElementById("op-multiplicacion").addEventListener('click', multiplicacion, false);
 document.getElementById("op-div").addEventListener('click', div, false);
+
+
 //op con imagenes compuestas
 document.getElementById("op-addimg").addEventListener('click', sumaImg, false);
 document.getElementById("op-marca-agua-centro").addEventListener('click', marcaAguaCentro, false);
 document.getElementById("op-marca-agua-array").addEventListener('click', marcaAguaArray, false);
+
 //op con efectos
+
 document.getElementById("op-rain2").addEventListener('click', rain2, false);
+
 //op con texto.
 document.getElementById("op-text").addEventListener('click', textEfects, false);
+
 //histogramas
 document.getElementById("op-hist").addEventListener('click', histogramas, false);
 document.getElementById("op-ecualizar").addEventListener('click', ecualizado, false);
+
+
 //mortfologia
 document.getElementById("op-eros").addEventListener('click', erosionarImg, false);
 document.getElementById("op-dila").addEventListener('click', dilatarImg, false);
 document.getElementById("op-aper").addEventListener('click', aperturaImg, false);
 document.getElementById("op-cier").addEventListener('click', cierreImg, false);
+
 //operacion con imagenes siteticas
 document.getElementById("op-pulso").addEventListener('click', generarPulso, false);
 document.getElementById("op-ruido").addEventListener('click', generarRuido, false);
 document.getElementById("op-rampax").addEventListener('click', generarRampaX, false);
 document.getElementById("op-rampay").addEventListener('click', generarRampaY, false);
+
 //operaciones geometricas
 document.getElementById("op-escalamiento").addEventListener('click', escalarImagen2, false);
 document.getElementById("op-rotacion").addEventListener('click', rotarImagen2, false);
 document.getElementById("op-shearingX").addEventListener('click', shearingX, false);
 document.getElementById("op-shearingY").addEventListener('click', shearingY, false);
-document.getElementById("op-afin").addEventListener('click', tAfin, false);
+document.getElementById("op-afin").addEventListener('click', tAfin, false); */
 //operaciones nuevas
 document.getElementById("generaRuido").addEventListener('click', generarRuidoBordes, false);
 document.addEventListener('DOMContentLoaded', function () {
@@ -615,3 +658,4 @@ document.getElementById('Zoom').addEventListener('click', Zoom);
 document.getElementById('LluviaBinario').addEventListener('click', LluviaBinario);
 document.getElementById('Cabezas').addEventListener('click', Cabezas);
 document.getElementById('FuncionPacMan').addEventListener('click', Pacmangame);
+document.getElementById('Ondasmedicion').addEventListener('click', Ondasmedicion);

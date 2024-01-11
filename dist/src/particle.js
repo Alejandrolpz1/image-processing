@@ -314,3 +314,51 @@ var Pellet = /** @class */ (function () {
     return Pellet;
 }());
 export { Pellet };
+var ElectromagneticWave = /** @class */ (function () {
+    function ElectromagneticWave(x, y, amplitude, frequency, speed, ctx) {
+        this.x = x;
+        this.y = y;
+        this.amplitude = amplitude;
+        this.frequency = frequency;
+        this.speed = speed;
+        this.ctx = ctx;
+        this.color = getRandomColor();
+    }
+    ElectromagneticWave.prototype.update = function () {
+        this.x += this.speed;
+        // Reinicia la posición si llega al final del lienzo
+        if (this.x > this.ctx.canvas.width) {
+            this.x = 0;
+        }
+    };
+    ElectromagneticWave.prototype.draw = function () {
+        this.ctx.strokeStyle = this.color;
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        for (var i = 0; i < this.ctx.canvas.width; i++) {
+            var waveHeight = this.amplitude * Math.sin((i + this.x) * (Math.PI * 2) / this.frequency);
+            this.ctx.lineTo(i, this.y + waveHeight);
+        }
+        this.ctx.stroke();
+    };
+    return ElectromagneticWave;
+}());
+export { ElectromagneticWave };
+var DNAChainSegment = /** @class */ (function () {
+    function DNAChainSegment(x, y, radius, color, ctx) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.ctx = ctx;
+    }
+    DNAChainSegment.prototype.draw = function () {
+        this.ctx.fillStyle = this.color;
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        this.ctx.closePath();
+        this.ctx.fill();
+    };
+    return DNAChainSegment;
+}());
+export { DNAChainSegment };

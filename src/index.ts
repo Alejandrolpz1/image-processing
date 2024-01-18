@@ -4,11 +4,9 @@ import { ImageType } from "./ImageType.js";
 import { MathImg } from "./MathImg.js";
 import { Particle } from "./particle.js";
 import { ParticleText } from "./particle.js";
-import { BinaryRain } from "./particle.js";
-import { Snake  } from "./particle.js"; 
-import { PacMan, Pellet, ElectromagneticWave  } from "./particle.js";
-import { DNAChainSegment  } from "./particle.js";
-
+import { BinaryRain } from "./proyect.js";
+import { Snake  } from "./proyect.js"; 
+import {  PacMan, Pellet, ElectromagneticWave, Brick, BreakoutBall } from "./proyect.js";
 import { CanvasLocal } from './canvasLocal.js';
 
 
@@ -230,8 +228,8 @@ function marcaAguaArray(evt: any): void{
   let pacMan: PacMan;
 let pelletsArray: Pellet[] = [];
 let electromagneticWaveArray: ElectromagneticWave[] = [];
-let dnaChainArray: DNAChainSegment[] = [];
 let angleIncrement = 0.05;
+
 
   function init() {
     // Inicializar
@@ -426,10 +424,10 @@ function Pacmangame() {
 /// "medicion de ondas" //
 
 function initElectromagneticWaves() {
-  // Crea ondas electromagnéticas en posiciones aleatorias y colores únicos
+  
   for (let i = 0; i < 5; i++) {
     let x = Math.random() * pantalla2.canvas.width;
-    let y = (i + 1) * pantalla2.canvas.height / 6; // Ajusta la posición vertical
+    let y = (i + 1) * pantalla2.canvas.height / 6; 
     let amplitude = Math.random() * 50 + 20;
     let frequency = Math.random() * 50 + 10;
     let speed = Math.random() * 2 + 1;
@@ -437,26 +435,75 @@ function initElectromagneticWaves() {
   }
 }
 
-// Función de animación para el efecto de ondas electromagnéticas
+
 function animateElectromagneticWaves() {
-  // Dibuja un fondo o la imagen original
+ 
   ctx.drawImage(imgLocal.getImage(), 0, 0, pantalla2.canvas.width, pantalla2.canvas.height);
 
-  // Actualiza y dibuja cada onda electromagnética
   for (let i = 0; i < electromagneticWaveArray.length; i++) {
     electromagneticWaveArray[i].update();
     electromagneticWaveArray[i].draw();
   }
 
-  // Llama a la animación de forma recursiva
   requestAnimationFrame(animateElectromagneticWaves);
 }
 
-// Llamada a las funciones de inicialización y animación de ondas electromagnéticas
+
 function Ondasmedicion() {
   initElectromagneticWaves();
   animateElectromagneticWaves();
 }
+
+
+// romprer bloques 
+
+let bricksArray: Brick[] = [];
+let breakoutBall: BreakoutBall;
+
+function initBreakout() {
+  // Inicializa bloques en una cuadrícula
+  const brickWidth = 50;
+  const brickHeight = 20;
+  const rows = 5;
+  const cols = 10;
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      const brickX = j * brickWidth;
+      const brickY = i * brickHeight;
+      bricksArray.push(new Brick(brickX, brickY, brickWidth, brickHeight, ctx));
+    }
+  }
+
+ 
+  breakoutBall = new BreakoutBall(pantalla2.canvas.width / 2, pantalla2.canvas.height / 2, 10, ctx);
+}
+
+function animateBreakout() {
+  pantalla2.clearRect(0, 0, pantalla2.canvas.width, pantalla2.canvas.height);
+
+
+  pantalla2.drawImage(imgLocal.getImage(), 0, 0, pantalla2.canvas.width, pantalla2.canvas.height);
+
+  
+  for (let i = 0; i < bricksArray.length; i++) {
+    bricksArray[i].draw();
+    bricksArray[i].checkCollision(breakoutBall);
+  }
+
+ 
+  breakoutBall.draw();
+  breakoutBall.update();
+
+  requestAnimationFrame(animateBreakout);
+}
+
+
+function startBreakout() {
+  initBreakout();
+  animateBreakout();
+}
+
 
 
 //seccion de histogramas  
@@ -573,6 +620,10 @@ function tAfin(evt: any): void{
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
   imagenSal.imageArray2DtoData(pantalla2, MathImg.tAfin(imagenSal, factores));
 }
+
+
+
+/// proyecto 
 function generarRuidoBordes(evt: any): void {
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
 
@@ -618,18 +669,7 @@ function applyMosaico() {
 }
 
 
-function aplicarEfectoAcuarela(): void {
-  const imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
 
-  // Obtén el arreglo 3D de la imagen original
-  const arrImage = imagenSal.getArrayImg();
-
-  // Aplica el efecto de acuarela
-  const imagenAcuarela = MathImg.efectoAcuarela(arrImage);
-
-  // Actualiza la imagen con el efecto de acuarela
-  imagenSal.imageArray2DtoData(pantalla2, imagenAcuarela);
-}
 
 function Cuadricula (evt: any): void {
   var imagenSal: ImageType = new ImageType(pantalla1, imgLocal.getImage());
@@ -767,7 +807,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById('mosaico').addEventListener('click', applyMosaico);
-document.getElementById('acuarela').addEventListener('click', aplicarEfectoAcuarela);
 document.getElementById("op-rain").addEventListener('click', rain, false);
 document.getElementById('Termica').addEventListener('click', EfectoTermica);
 document.getElementById('Cuadricula').addEventListener('click', Cuadricula);
@@ -777,7 +816,7 @@ document.getElementById('LluviaBinario').addEventListener('click', LluviaBinario
 document.getElementById('Cabezas').addEventListener('click', Cabezas);
 document.getElementById('FuncionPacMan').addEventListener('click', Pacmangame);
 document.getElementById('Ondasmedicion').addEventListener('click', Ondasmedicion); 
-
+document.getElementById('startBreakout').addEventListener('click', startBreakout); 
 
 
 
